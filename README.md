@@ -1,6 +1,6 @@
 # Лабораторная работа #1 - v.2184
 
-Visit https://se.ifmo.ru/~s333057/dist/ for details.
+Visit <https://se.ifmo.ru/~s333057/dist/> for details.
 
 Разработать спецификацию в формате OpenAPI для набора веб-сервисов, реализующих следующую функциональность.
 
