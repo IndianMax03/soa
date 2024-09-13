@@ -57,12 +57,56 @@ paths:
       responses:
         '200':
           description: 'Ticket successfully sold'
-        '404':
+          content:
+            application/xml:
+              schema:
+                $ref: './ticket-service-openapi.yml#/components/schemas/TicketResponse'
+        '400':
           description: 'Invalid path parameters'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Invalid path parameters'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
         '500':
           description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
         default:
           description: 'Returns error code, message and time in case of error'
+          content:
+            application/xml:
+              schema:
+                $ref: './ticket-service-openapi.yml#/components/schemas/ErrorModel'
 
 
   /discount/{ticket-id}/{person-id}/{discount}:
@@ -117,11 +161,70 @@ paths:
             application/xml:
               schema:
                 $ref: './ticket-service-openapi.yml#/components/schemas/TicketResponse'
-        '404':
+        '400':
           description: 'Invalid path parameters'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Invalid path parameters'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
         '418':
-          description: 'Discount time out'
+          description: 'Discount time went out'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 418
+                  message:
+                    type: string
+                    example: 'Discount time went out'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
         '500':
           description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
         default:
           description: 'Returns error code, message and time in case of error'
+          content:
+            application/xml:
+              schema:
+                $ref: './ticket-service-openapi.yml#/components/schemas/ErrorModel'
+
