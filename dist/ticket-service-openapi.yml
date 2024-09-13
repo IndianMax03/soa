@@ -168,7 +168,6 @@ components:
           anyOf:
             - $ref: '#/components/schemas/Coordinates'
             - type: 'null'
-#        creationDate: ''
         price:
           description: 'Цена билета'
           type: number
@@ -209,6 +208,14 @@ components:
               example: 11
               minimum: 1
               maximum: 9223372036854775807
+        - type: object
+          properties:
+            creationDate:
+              description: 'Ticket creation date'
+              type: string
+              format: date-time
+              nullable: false
+              example: '2024-09-13T19:57:43.961423'
         - $ref: '#/components/schemas/Ticket'
 
 
