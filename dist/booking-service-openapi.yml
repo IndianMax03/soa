@@ -17,8 +17,8 @@ paths:
       description: 'Продать определенный билет кому-то за какую-то цену'
       operationId: 'OpID10'
       parameters:
-        - in: path
-          name: ticket-id
+        - name: ticket-id
+          in: path
           schema: 
             description: 'Айди тикетика'
             type: integer
@@ -28,8 +28,8 @@ paths:
             minimum: 1
             maximum: 9223372036854775807
           required: true
-        - in: path
-          name: person-id
+        - name: person-id
+          in: path
           schema: 
              description: 'Айди челика'
              type: integer
@@ -40,8 +40,8 @@ paths:
              exclusiveMinimum: true
              maximum: 9223372036854775807
           required: true
-        - in: path
-          name: price
+        - name: price
+          in: path
           schema: 
             description: 'Цена билета'
             type: number
@@ -71,8 +71,8 @@ paths:
       description: 'Создать билет на основе указанного и продать его определенному человеку с указанной в % скидкой'
       operationId: 'OpID11'
       parameters:
-         - in: path
-           name: ticket-id
+         - name: ticket-id
+           in: path
            schema: 
               description: 'Айди тикетика'
               type: integer
@@ -82,8 +82,8 @@ paths:
               minimum: 1
               maximum: 9223372036854775807
            required: true
-         - in: path
-           name: person-id
+         - name: person-id
+           in: path
            schema: 
              description: 'Айди челика'
              type: integer
@@ -94,8 +94,8 @@ paths:
              exclusiveMinimum: true
              maximum: 9223372036854775807
              required: true
-         - in: path
-           name: discount
+         - name: discount
+           in: path
            schema: 
               description: 'Цена билета'
               type: number
