@@ -10,17 +10,99 @@ servers:
 
 paths:
   /{ticket-id}/{person-id}/{price}:
-    get:
+    post:
       tags:
-        - 'Tag0'
-      summary: 'Продать билет кому-то за какую-то цену'
-      description: 'Получаем все билеты'
+        - 'Tag1'
+      summary: 'Продать билет'
+      description: 'Продать определенный билет кому-то за какую-то цену'
       operationId: 'OpID10'
+      parameters:
+        - in: path
+          name: ticket-id
+          schema: 
+            description: 'Айди тикетика'
+            type: integer
+            format: int64
+            nullable: false
+            example: 11
+            minimum: 1
+            maximum: 9223372036854775807
+          required: true
+        - in: path
+          name: person-id
+          schema: 
+             description: 'Айди челика'
+             type: integer
+             format: int64
+             nullable: false
+             example: 11
+             minimum: 0
+             exclusiveMinimum: true
+             maximum: 9223372036854775807
+          required: true
+        - in: path
+          name: price
+          schema: 
+            description: 'Цена билета'
+            type: number
+            format: double
+            nullable: false
+            example: 3.1415
+            minimum: 0
+            exclusiveMinimum: true
+            maximum: 1.7976931348623157E308
+          required: true
+      responses:
+        '200':
+          description: 
+        default:
+          description:
 
   /discount/{ticket-id}/{person-id}/{discount}:
-    get:
+    post:
       tags:
-        - 'Tag0'
-      summary: 'Здесь ваще чето лютое по описанию'
-      description: 'Лютим'
+        - 'Tag1'
+      summary: 'Продать билет со скидкой'
+      description: 'Создать билет на основе указанного и продать его определенному человеку с указанной в % скидкой'
       operationId: 'OpID11'
+      parameters:
+         - in: path
+           name: ticket-id
+           schema: 
+              description: 'Айди тикетика'
+              type: integer
+              format: int64
+              nullable: false
+              example: 11
+              minimum: 1
+              maximum: 9223372036854775807
+           required: true
+         - in: path
+           name: person-id
+           schema: 
+             description: 'Айди челика'
+             type: integer
+             format: int64
+             nullable: false
+             example: 11
+             minimum: 0
+             exclusiveMinimum: true
+             maximum: 9223372036854775807
+             required: true
+         - in: path
+           name: discount
+           schema: 
+              description: 'Цена билета'
+              type: number
+              format: int64
+              nullable: false
+              example: 15
+              minimum: 0
+              exclusiveMinimum: true
+              maximum: 100
+           required: true
+      responses:
+        '200':
+          description: 
+        default:
+          description:
