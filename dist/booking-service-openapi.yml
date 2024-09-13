@@ -16,6 +16,8 @@ paths:
       summary: 'Продать билет'
       description: 'Продать определенный билет кому-то за какую-то цену'
       operationId: 'OpID10'
+      security:
+        - token: []
       parameters:
         - name: ticket-id
           in: path
@@ -70,6 +72,8 @@ paths:
       summary: 'Продать билет со скидкой'
       description: 'Создать билет на основе указанного и продать его определенному человеку с указанной в % скидкой'
       operationId: 'OpID11'
+      security:
+        - token: []
       parameters:
          - name: ticket-id
            in: path
@@ -109,6 +113,10 @@ paths:
       responses:
         '200':
           description: 'Ticket successfully sold'
+          content:
+            application/xml:
+              schema:
+                $ref: './ticket-service-openapi.yml#/components/schemas/TicketResponse'
         '404':
           description: 'Invalid path parameters'
         '418':
