@@ -13,7 +13,7 @@ paths:
     get:
       responses:
         default:
-          $ref: '#components/schemas/Coordianates'
+          $ref: '#components/schemas/Coordinates'
       tags:
         - 'Tag'
       summary: 'Получить тикеты'
@@ -249,20 +249,46 @@ components:
           example: 'qwerty'
           minLength: 1
           maxLength: 64
-        balance:
-          description: 'Баланс челика'
-          type: number
-          format: double
-          nullable: false
-          example: 23.08
-          default: 0.0
-          minimum: 0.0
-          maximum: 1.7976931348623157E308
-        tickets:
-          description: 'Купленные билеты'
-          type: array
-          items:
-            $ref: '#/components/schemas/TicketResponse'
+
+    PersonResponse:
+      allOf:
+        - type: object
+          properties:
+            id:
+              description: 'Айди челика'
+              type: integer
+              format: int64
+              nullable: false
+              example: 11
+              minimum: 0
+              exclusiveMinimum: true
+              maximum: 9223372036854775807
+        - $ref: '#/components/schemas/Person'
+        - type: object
+          properties:
+            balance:
+              description: 'Баланс челика'
+              type: number
+              format: double
+              nullable: false
+              example: 23.08
+              default: 0.0
+              minimum: 0.0
+              maximum: 1.7976931348623157E308
+        - type: object
+          properties:
+            tickets:
+              description: 'Купленные билеты'
+              type: array
+              items:
+                $ref: '#/components/schemas/TicketResponse'
+
+  securitySchemes:
+    token:
+      type: apiKey
+      description: 'Токенчик'
+      name: 'Token'
+      in: header
 
 
 #    ErrorModel:
@@ -278,8 +304,9 @@ components:
 #          minimum: 100
 #          maximum: 600
 
-#security: 'TBD'
-#
+security:
+  - token: []
+
 #tags: 'TBD'
 #
 #externalDocsL: 'TBD'
