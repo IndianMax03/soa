@@ -196,7 +196,7 @@ components:
           $ref: '#/components/schemas/TicketType'
         venue:
           anyOf:
-            - $ref: '#/components/schemas/Venue'
+            - $ref: '#/components/schemas/VenueResponse'
             - type: 'null'
 
     VenueResponse:
@@ -237,7 +237,49 @@ components:
               format: date-time
               nullable: false
               example: '2024-09-13T19:57:43.961423'
+        - type: object
+          properties:
+            is_sold:
+              description: 'Билет продан'
+              type: boolean
+              nullable: false
+              default: false
+              example: true
         - $ref: '#/components/schemas/Ticket'
+
+    Person:
+      title: 'Person'
+      type: object
+      properties:
+        username:
+          description: 'Person name'
+          type: string
+          nullable: false
+          example: 'maxim_2003'
+          minLength: 1
+          maxLength: 64
+        password:
+          description: 'Person password'
+          type: string
+          format: password
+          nullable: false
+          example: 'qwerty'
+          minLength: 1
+          maxLength: 64
+        balance:
+          description: 'Баланс челика'
+          type: number
+          format: double
+          nullable: false
+          example: 23.08
+          default: 0.0
+          minimum: 0.0
+          maximum: 1.7976931348623157E308
+        tickets:
+          description: 'Купленные билеты'
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketResponse'
 
 
 #    ErrorModel:
