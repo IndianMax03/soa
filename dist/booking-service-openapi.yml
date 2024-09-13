@@ -54,9 +54,14 @@ paths:
           required: true
       responses:
         '200':
-          description: 
+          description: 'Ticket successfully sold'
+        '404':
+          description: 'Invalid path parameters'
+        '500':
+          description: 'Internal server error'
         default:
-          description:
+          description: 'Returns error code, message and time in case of error'
+
 
   /discount/{ticket-id}/{person-id}/{discount}:
     post:
@@ -103,6 +108,12 @@ paths:
            required: true
       responses:
         '200':
-          description: 
+          description: 'Ticket successfully sold'
+        '404':
+          description: 'Invalid path parameters'
+        '418':
+          description: 'Discount time out'
+        '500':
+          description: 'Internal server error'
         default:
-          description:
+          description: 'Returns error code, message and time in case of error'
