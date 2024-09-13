@@ -1,0 +1,232 @@
+openapi: '3.0.3'
+
+info:
+  title: 'Ticket API'
+  description: 'Description'
+  version: '1.0'
+
+servers:
+  - url: 'http://api.tickets.com/1.0/'
+
+paths:
+  /tickets:
+    get:
+      responses:
+        default:
+          $ref: '#components/schemas/Coordianates'
+      tags:
+        - 'Tag'
+      summary: 'Получить тикеты'
+      description: 'Получаем все билеты'
+      operationId: 'OpID2'
+    post:
+      tags:
+        - 'Tag'
+      summary: 'Создать тикет'
+      description: 'Создаем билетикуса'
+      operationId: 'OpID1'
+
+  /tickets/{id}:
+    get:
+      tags:
+        - 'Tag1'
+      summary: 'Получить тикет по айди'
+      description: 'Получаем билетик по айдишечке'
+      operationId: 'OpID3'
+    put:
+      tags:
+        - 'Tag1'
+      summary: 'Обновить тикет по айди'
+      description: 'Обновляем билетик по айдишечке'
+      operationId: 'OpID4'
+    delete:
+      tags:
+        - 'Tag1'
+      summary: 'Удалить тикет по айди'
+      description: 'Удаляем билетик по айдишечке'
+      operationId: 'OpID5'
+
+  /tickets/price-sum:
+    get:
+      tags:
+        - 'Tag2'
+      summary: 'Получить сумму всех билетов'
+      description: 'Получаем мани в наши кармани'
+      operationId: 'OpID6'
+
+  /tickets/venue-min:
+    get:
+      tags:
+        - 'Tag3'
+      summary: 'Получить минимум по Venue'
+      description: 'Получаем мини по веню'
+      operationId: 'OpID7'
+
+  /tickets/venue-unique:
+    get:
+      tags:
+        - 'Tag3'
+      summary: 'Получить уникальные Venue'
+      description: 'Получаем уники венюшек'
+      operationId: 'OpID8'
+
+components:
+  schemas:
+    Address:
+      title: 'Address'
+      type: object
+      properties:
+        zipCode:
+          description: 'Зип кодик'
+          type: string
+          nullable: false
+          example: '33701-4313'
+          minLength: 10
+          maxLength: 2147483647
+
+    Coordinates:
+      title: 'Coordinates'
+      type: object
+      properties:
+        x:
+          description: 'Иксовая координата'
+          type: number
+          format: double
+          nullable: false
+          example: 3.1415
+          minimum: 4.9E-324
+          maximum: 1.7976931348623157E308
+        y:
+          description: 'Игрековая координата'
+          type: number
+          format: float
+          nullable: false
+          example: 2.718
+          minimum: 1.4E-45
+          maximum: 3.4028235E38
+
+    TicketType:
+      title: 'TicketType'
+      description: 'Тип тикета без null!'
+      type: string
+      enum:
+        - VIP
+        - BUDGETARY
+        - CHEAP
+      nullable: false
+      example: VIP
+      default: CHEAP
+
+    VenueType:
+      title: 'VenueType'
+      description: 'Тип места встречи без null!'
+      type: string
+      enum:
+        - BAR
+        - CINEMA
+        - STADIUM
+      nullable: false
+      example: BAR
+      default: STADIUM
+
+    Venue:
+      title: 'Venue'
+      type: object
+      properties:
+        name:
+          description: 'NAME'
+          type: string
+          nullable: false
+          example: 'Venue name'
+          minLength: 1
+          maxLength: 2147483647
+        capacity:
+          description: 'Капасити венюшечки'
+          type: integer
+          format: int64
+          nullable: false
+          example: 5000
+          minimum: 1
+          maximum: 9223372036854775807
+        type:
+          $ref: '#/components/schemas/VenueType'
+        address:
+          $ref: '#/components/schemas/Address'
+
+    Ticket:
+      title: 'Ticket'
+      type: object
+      properties:
+        name:
+          description: 'Ticket name'
+          type: string
+          nullable: false
+          example: 'Ticket name'
+          minLength: 1
+          maxLength: 2147483647
+        coordinates:
+          anyOf:
+            - $ref: '#/components/schemas/Coordinates'
+            - type: 'null'
+#        creationDate: ''
+        price:
+          description: 'Цена билета'
+          type: number
+          format: double
+          nullable: false
+          example: 3.1415
+          minimum: 0
+          exclusiveMinimum: true
+          maximum: 1.7976931348623157E308
+#        type: ''
+#        venue: ''
+
+    VenueResponse:
+      title: 'VenueResponse'
+      allOf:
+        - type: object
+          properties:
+            id:
+              description: 'Айди венюшечки'
+              type: integer
+              format: int32
+              nullable: false
+              example: 17
+              minimum: 1
+              maximum: 2147483647
+        - $ref: '#/components/schemas/Venue'
+
+    TicketResponse:
+      title: 'TicketResponse'
+      allOf:
+        - type: object
+          properties:
+            id:
+              description: 'Айди тикетика'
+              type: integer
+              format: int64
+              nullable: false
+              example: 11
+              minimum: 1
+              maximum: 9223372036854775807
+        - $ref: '#/components/schemas/Ticket'
+
+
+#    ErrorModel:
+#      type: object
+#      required:
+#        - message
+#        - code
+#      properties:
+#        message:
+#          type: string
+#        code:
+#          type: integer
+#          minimum: 100
+#          maximum: 600
+
+#security: 'TBD'
+#
+#tags: 'TBD'
+#
+#externalDocsL: 'TBD'

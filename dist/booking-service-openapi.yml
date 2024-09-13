@@ -1,0 +1,26 @@
+openapi: '3.0.3'
+
+info:
+  title: 'Ticket API'
+  description: 'Description'
+  version: '1.0'
+
+servers:
+  - url: 'http://api.tickets.com/1.0/booking/sell'
+
+paths:
+  /{ticket-id}/{person-id}/{price}:
+    get:
+      tags:
+        - 'Tag0'
+      summary: 'Продать билет кому-то за какую-то цену'
+      description: 'Получаем все билеты'
+      operationId: 'OpID10'
+
+  /discount/{ticket-id}/{person-id}/{discount}:
+    get:
+      tags:
+        - 'Tag0'
+      summary: 'Здесь ваще чето лютое по описанию'
+      description: 'Лютим'
+      operationId: 'OpID11'
