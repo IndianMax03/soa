@@ -9,6 +9,7 @@ servers:
   - url: 'http://api.tickets.com/1.0/'
 
 paths:
+
   /tickets:
     get:
       responses:
@@ -19,12 +20,27 @@ paths:
       summary: 'Получить тикеты'
       description: 'Получаем все билеты'
       operationId: 'OpID2'
+
     post:
-      tags:
-        - 'Tag'
       summary: 'Создать тикет'
       description: 'Создаем билетикуса'
       operationId: 'OpID1'
+      tags:
+        - 'Tag'
+      requestBody:
+        required: true
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      responses:
+        default:
+          description: 'Default response'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TicketResponse'
+
 
   /tickets/{id}:
     get:
@@ -146,7 +162,8 @@ components:
           format: int64
           nullable: false
           example: 5000
-          minimum: 1
+          minimum: 0
+          exclusiveMinimum: true
           maximum: 9223372036854775807
         type:
           $ref: '#/components/schemas/VenueType'
@@ -165,20 +182,22 @@ components:
           minLength: 1
           maxLength: 2147483647
         coordinates:
-          anyOf:
-            - $ref: '#/components/schemas/Coordinates'
-            - type: 'null'
+          $ref: '#/components/schemas/Coordinates'
         price:
           description: 'Цена билета'
           type: number
           format: double
           nullable: false
-          example: 3.1415
+          example: 312.2003
           minimum: 0
           exclusiveMinimum: true
           maximum: 1.7976931348623157E308
-#        type: ''
-#        venue: ''
+        type:
+          $ref: '#/components/schemas/TicketType'
+        venue:
+          anyOf:
+            - $ref: '#/components/schemas/Venue'
+            - type: 'null'
 
     VenueResponse:
       title: 'VenueResponse'
@@ -191,7 +210,8 @@ components:
               format: int32
               nullable: false
               example: 17
-              minimum: 1
+              minimum: 0
+              exclusiveMinimum: true
               maximum: 2147483647
         - $ref: '#/components/schemas/Venue'
 
@@ -206,7 +226,8 @@ components:
               format: int64
               nullable: false
               example: 11
-              minimum: 1
+              minimum: 0
+              exclusiveMinimum: true
               maximum: 9223372036854775807
         - type: object
           properties:
