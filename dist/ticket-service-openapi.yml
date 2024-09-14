@@ -1314,7 +1314,3 @@ components:
       description: 'Token'
       name: 'Token'
       in: header
-
-#tags: 'TBD'
-#
-#externalDocsL: 'TBD'

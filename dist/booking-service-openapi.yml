@@ -228,3 +228,10 @@ paths:
               schema:
                 $ref: './ticket-service-openapi.yml#/components/schemas/ErrorModel'
 
+components:
+  securitySchemes:
+    token:
+      type: apiKey
+      description: 'Token'
+      name: 'Token'
+      in: header
