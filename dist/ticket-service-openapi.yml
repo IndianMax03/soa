@@ -9,66 +9,1018 @@ servers:
   - url: 'http://api.tickets.com/1.0/'
 
 paths:
+
   /tickets:
     get:
-      responses:
-        default:
-          $ref: '#components/schemas/Coordinates'
-      tags:
-        - 'Tag'
       summary: 'Получить тикеты'
       description: 'Получаем все билеты'
-      operationId: 'OpID2'
-    post:
+      operationId: 'getTickets'
       tags:
-        - 'Tag'
+        - 'Tickets'
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+            format: int64
+            minimum: 0
+        - in: query
+          name: pageSize
+          required: false
+          schema:
+            type: number
+            format: int64
+            default: 10
+            minimum: 1
+        - in: query
+          name: filter
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id
+                - name
+                - coordinates.x
+                - coordinates.y
+                - creationDate
+                - price
+                - type
+                - venue.id
+                - venue.name
+                - venue.capacity
+                - venue.type
+                - venue.address.zipcode
+                - -id
+                - -name
+                - -coordinates.x
+                - -coordinates.y
+                - -creationDate
+                - -price
+                - -type
+                - -venue.id
+                - -venue.name
+                - -venue.capacity
+                - -venue.type
+                - -venue.address.zipcode
+        - in: query
+          name: sort
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id
+                - name
+                - coordinates.x
+                - coordinates.y
+                - creationDate
+                - price
+                - type
+                - venue.id
+                - venue.name
+                - venue.capacity
+                - venue.type
+                - venue.address.zipcode
+                - -id
+                - -name
+                - -coordinates.x
+                - -coordinates.y
+                - -creationDate
+                - -price
+                - -type
+                - -venue.id
+                - -venue.name
+                - -venue.capacity
+                - -venue.type
+                - -venue.address.zipcode
+      security:
+        - token: []
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TicketResponseArray'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+    post:
       summary: 'Создать тикет'
       description: 'Создаем билетикуса'
       operationId: 'OpID1'
+      tags:
+        - 'Tickets'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      security:
+        - token: []
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TicketResponse'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '405':
+          description: 'Валидейшон эксепшон я в париже'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Ошибка валидации'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
 
   /tickets/{id}:
     get:
       tags:
-        - 'Tag1'
+        - 'Tickets'
       summary: 'Получить тикет по айди'
       description: 'Получаем билетик по айдишечке'
       operationId: 'OpID3'
+      security:
+        - token: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            description: 'Айди тикетика'
+            type: integer
+            format: int64
+            nullable: false
+            example: 11
+            minimum: 1
+            maximum: 9223372036854775807
+          required: true
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TicketResponse'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
     put:
       tags:
-        - 'Tag1'
+        - 'Tickets'
       summary: 'Обновить тикет по айди'
       description: 'Обновляем билетик по айдишечке'
       operationId: 'OpID4'
+      security:
+        - token: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            description: 'Айди тикетика'
+            type: integer
+            format: int64
+            nullable: false
+            example: 11
+            minimum: 1
+            maximum: 9223372036854775807
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TicketResponse'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
     delete:
       tags:
-        - 'Tag1'
+        - 'Tickets'
       summary: 'Удалить тикет по айди'
       description: 'Удаляем билетик по айдишечке'
       operationId: 'OpID5'
+      security:
+        - token: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            description: 'Айди тикетика'
+            type: integer
+            format: int64
+            nullable: false
+            example: 11
+            minimum: 1
+            maximum: 9223372036854775807
+          required: true
+      responses:
+        '204':
+          description: 'Описание ответа что отлично удалили'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'success'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 204
+                  message:
+                    type: string
+                    example: 'Тикет с id=1 успешно удален!!!'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
 
   /tickets/price-sum:
     get:
       tags:
-        - 'Tag2'
+        - 'Tickets Util'
       summary: 'Получить сумму всех билетов'
       description: 'Получаем мани в наши кармани'
       operationId: 'OpID6'
+      security:
+        - token: []
+      responses:
+        '200':
+          description: 'Описание ответа что вот держите сумму'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'sum'
+                type: number
+                format: double
+                nullable: false
+                example: 666.666
+                minimum: 0.0
+                maximum: 1.7976931348623157E308
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
 
   /tickets/venue-min:
     get:
       tags:
-        - 'Tag3'
+        - 'Tickets Util'
       summary: 'Получить минимум по Venue'
       description: 'Получаем мини по веню'
       operationId: 'OpID7'
+      security:
+        - token: []
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/TicketResponse'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
 
-  /tickets/venue-unique:
+  /tickets/venue/unique:
     get:
       tags:
-        - 'Tag3'
+        - 'Tickets Util'
       summary: 'Получить уникальные Venue'
       description: 'Получаем уники венюшек'
       operationId: 'OpID8'
+      security:
+        - token: []
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/VenueResponseArray'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /persons:
+    get:
+      tags:
+        - 'Persons'
+      summary: 'Всех людей'
+      description: 'Получаем всех людей'
+      operationId: 'OpID111'
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+            format: int64
+            minimum: 0
+        - in: query
+          name: pageSize
+          required: false
+          schema:
+            type: number
+            format: int64
+            default: 10
+            minimum: 1
+        - in: query
+          name: filter
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id
+                - username
+                - balance
+        - in: query
+          name: sort
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - id
+                - username
+                - balance
+      security:
+        - token: []
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PersonResponseArray'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '401':
+          description: 'Не авторизован!'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+    post:
+      tags:
+        - 'Persons'
+      summary: 'Создать челика'
+      description: 'Создаем персону'
+      operationId: 'OpID112'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PersonResponse'
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '405':
+          description: 'Валидейшон эксепшон я в париже'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Ошибка валидации'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /persons/login:
+    post:
+      tags:
+        - 'Persons'
+      summary: 'Получить токен доступа'
+      description: 'Получаем токен доступа'
+      operationId: 'OpID114'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+      responses:
+        '200':
+          description: 'Описание ответа'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'token'
+                title: 'TokenResponse'
+                description: 'Токенчик'
+                type: string
+                nullable: false
+                example: 'fd4698c940c6d1da602a70ac34f0b147'
+                minLength: 32
+                maxLength: 512
+        '400':
+          description: 'Невалидный запрос'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Невалидный запрос'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '405':
+          description: 'Валидейшон эксепшон я в париже'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Ошибка валидации'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: Returns error code, message and time in case of error
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
 
 components:
   schemas:
@@ -146,7 +1098,8 @@ components:
           format: int64
           nullable: false
           example: 5000
-          minimum: 1
+          minimum: 0
+          exclusiveMinimum: true
           maximum: 9223372036854775807
         type:
           $ref: '#/components/schemas/VenueType'
@@ -165,15 +1118,13 @@ components:
           minLength: 1
           maxLength: 2147483647
         coordinates:
-          anyOf:
-            - $ref: '#/components/schemas/Coordinates'
-            - type: 'null'
+          $ref: '#/components/schemas/Coordinates'
         price:
           description: 'Цена билета'
           type: number
           format: double
           nullable: false
-          example: 3.1415
+          example: 312.2003
           minimum: 0
           exclusiveMinimum: true
           maximum: 1.7976931348623157E308
@@ -195,7 +1146,8 @@ components:
               format: int32
               nullable: false
               example: 17
-              minimum: 1
+              minimum: 0
+              exclusiveMinimum: true
               maximum: 2147483647
         - $ref: '#/components/schemas/Venue'
 
@@ -210,7 +1162,8 @@ components:
               format: int64
               nullable: false
               example: 11
-              minimum: 1
+              minimum: 0
+              exclusiveMinimum: true
               maximum: 9223372036854775807
         - type: object
           properties:
@@ -283,29 +1236,84 @@ components:
               items:
                 $ref: '#/components/schemas/TicketResponse'
 
+    TicketResponseArray:
+      title: 'Билетикусы'
+      type: object
+      properties:
+        ticket:
+          title: 'Массив тикетов'
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketResponse'
+
+    VenueResponseArray:
+      title: 'Веньюсы'
+      type: object
+      properties:
+        venue:
+          title: 'Массив веньюсов'
+          type: array
+          items:
+            $ref: '#/components/schemas/VenueResponse'
+
+    PersonResponseArray:
+      title: 'Персоны'
+      type: object
+      properties:
+        persons:
+          title: 'Массив персон'
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonResponse'
+
+    ErrorModel:
+      type: object
+      xml:
+        name: 'error'
+      required:
+        - code
+        - message
+        - time
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 418
+        message:
+          type: string
+          example: 'Я - чайник'
+        time:
+          type: string
+          format: date-time
+          example: '2024-09-13T19:57:43.961423'
+
+    UnauthorizedError:
+      type: object
+      xml:
+        name: 'error'
+      required:
+        - code
+        - message
+        - time
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 401
+        message:
+          type: string
+          example: 'Не авторизован!'
+        time:
+          type: string
+          format: date-time
+          example: '2024-09-13T19:57:43.961423'
+
   securitySchemes:
     token:
       type: apiKey
       description: 'Токенчик'
       name: 'Token'
       in: header
-
-
-#    ErrorModel:
-#      type: object
-#      required:
-#        - message
-#        - code
-#      properties:
-#        message:
-#          type: string
-#        code:
-#          type: integer
-#          minimum: 100
-#          maximum: 600
-
-security:
-  - token: []
 
 #tags: 'TBD'
 #
