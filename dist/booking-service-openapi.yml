@@ -12,7 +12,7 @@ paths:
   /{ticket-id}/{person-id}/{price}:
     post:
       tags:
-        - 'Tag1'
+        - 'Booking'
       summary: 'Sell tickets'
       description: 'Sell some ticket to someone for some'
       operationId: 'OpID10'
@@ -112,7 +112,7 @@ paths:
   /discount/{ticket-id}/{person-id}/{discount}:
     post:
       tags:
-        - 'Tag1'
+        - 'Booking'
       summary: 'Sell ticket with discount'
       description: 'Create ticket based on the specified ticket and sell it to some person with specified discount %'
       operationId: 'OpID11'
