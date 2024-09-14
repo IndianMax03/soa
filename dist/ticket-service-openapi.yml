@@ -1147,9 +1147,9 @@ components:
         type:
           $ref: '#/components/schemas/TicketType'
         venue:
-          anyOf:
-            - $ref: '#/components/schemas/VenueResponse'
-            - type: 'null'
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/VenueResponse'
 
     TicketResponse:
       title: 'TicketResponse'
