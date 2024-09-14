@@ -10,17 +10,221 @@ servers:
 
 paths:
   /{ticket-id}/{person-id}/{price}:
-    get:
+    post:
       tags:
-        - 'Tag0'
-      summary: 'Продать билет кому-то за какую-то цену'
-      description: 'Получаем все билеты'
+        - 'Tag1'
+      summary: 'Продать билет'
+      description: 'Продать определенный билет кому-то за какую-то цену'
       operationId: 'OpID10'
+      security:
+        - token: []
+      parameters:
+        - name: ticket-id
+          in: path
+          schema: 
+            description: 'Айди тикетика'
+            type: integer
+            format: int64
+            nullable: false
+            example: 11
+            minimum: 1
+            maximum: 9223372036854775807
+          required: true
+        - name: person-id
+          in: path
+          schema: 
+             description: 'Айди челика'
+             type: integer
+             format: int64
+             nullable: false
+             example: 11
+             minimum: 0
+             exclusiveMinimum: true
+             maximum: 9223372036854775807
+          required: true
+        - name: price
+          in: path
+          schema: 
+            description: 'Цена билета'
+            type: number
+            format: double
+            nullable: false
+            example: 3.1415
+            minimum: 0
+            exclusiveMinimum: true
+            maximum: 1.7976931348623157E308
+          required: true
+      responses:
+        '200':
+          description: 'Ticket successfully sold'
+          content:
+            application/xml:
+              schema:
+                $ref: './ticket-service-openapi.yml#/components/schemas/TicketResponse'
+        '400':
+          description: 'Invalid path parameters'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Invalid path parameters'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: 'Returns error code, message and time in case of error'
+          content:
+            application/xml:
+              schema:
+                $ref: './ticket-service-openapi.yml#/components/schemas/ErrorModel'
+
 
   /discount/{ticket-id}/{person-id}/{discount}:
-    get:
+    post:
       tags:
-        - 'Tag0'
-      summary: 'Здесь ваще чето лютое по описанию'
-      description: 'Лютим'
+        - 'Tag1'
+      summary: 'Продать билет со скидкой'
+      description: 'Создать билет на основе указанного и продать его определенному человеку с указанной в % скидкой'
       operationId: 'OpID11'
+      security:
+        - token: []
+      parameters:
+         - name: ticket-id
+           in: path
+           schema: 
+              description: 'Айди тикетика'
+              type: integer
+              format: int64
+              nullable: false
+              example: 11
+              minimum: 1
+              maximum: 9223372036854775807
+           required: true
+         - name: person-id
+           in: path
+           schema: 
+             description: 'Айди челика'
+             type: integer
+             format: int64
+             nullable: false
+             example: 11
+             minimum: 0
+             exclusiveMinimum: true
+             maximum: 9223372036854775807
+             required: true
+         - name: discount
+           in: path
+           schema: 
+              description: 'Цена билета'
+              type: number
+              format: int64
+              nullable: false
+              example: 15
+              minimum: 0
+              exclusiveMinimum: true
+              maximum: 100
+           required: true
+      responses:
+        '200':
+          description: 'Ticket successfully sold'
+          content:
+            application/xml:
+              schema:
+                $ref: './ticket-service-openapi.yml#/components/schemas/TicketResponse'
+        '400':
+          description: 'Invalid path parameters'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 400
+                  message:
+                    type: string
+                    example: 'Invalid path parameters'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '418':
+          description: 'Discount time went out'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 418
+                  message:
+                    type: string
+                    example: 'Discount time went out'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/xml:
+              schema:
+                xml:
+                  name: 'error'
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 500
+                  message:
+                    type: string
+                    example: 'Internal server error'
+                  time:
+                    type: string
+                    format: date-time
+                    example: '2024-09-13T19:57:43.961423'
+        default:
+          description: 'Returns error code, message and time in case of error'
+          content:
+            application/xml:
+              schema:
+                $ref: './ticket-service-openapi.yml#/components/schemas/ErrorModel'
+
