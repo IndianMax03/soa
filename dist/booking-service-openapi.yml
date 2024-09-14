@@ -141,7 +141,7 @@ paths:
              minimum: 0
              exclusiveMinimum: true
              maximum: 9223372036854775807
-             required: true
+           required: true
          - name: discount
            in: path
            schema: 

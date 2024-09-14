@@ -168,7 +168,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/xml:
             schema:
               $ref: '#/components/schemas/Ticket'
       security:
@@ -359,7 +359,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/xml:
             schema:
               $ref: '#/components/schemas/Ticket'
       responses:
@@ -848,7 +848,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          application/xml:
             schema:
               $ref: '#/components/schemas/Person'
       responses:
@@ -1106,6 +1106,22 @@ components:
         address:
           $ref: '#/components/schemas/Address'
 
+    VenueResponse:
+      title: 'VenueResponse'
+      allOf:
+        - type: object
+          properties:
+            id:
+              description: 'Venue id'
+              type: integer
+              format: int32
+              nullable: false
+              example: 17
+              minimum: 0
+              exclusiveMinimum: true
+              maximum: 2147483647
+        - $ref: '#/components/schemas/Venue'
+
     Ticket:
       title: 'Ticket'
       type: object
@@ -1134,22 +1150,6 @@ components:
           anyOf:
             - $ref: '#/components/schemas/VenueResponse'
             - type: 'null'
-
-    VenueResponse:
-      title: 'VenueResponse'
-      allOf:
-        - type: object
-          properties:
-            id:
-              description: 'Venue id'
-              type: integer
-              format: int32
-              nullable: false
-              example: 17
-              minimum: 0
-              exclusiveMinimum: true
-              maximum: 2147483647
-        - $ref: '#/components/schemas/Venue'
 
     TicketResponse:
       title: 'TicketResponse'
@@ -1234,7 +1234,7 @@ components:
               description: 'Bought tickets'
               type: array
               items:
-                $ref: '#/components/schemas/TicketResponse'
+                $ref: '#/components/schemas/TicketResponseArray'
 
     TicketResponseArray:
       title: 'Tickets'
