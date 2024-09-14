@@ -12,8 +12,8 @@ paths:
 
   /tickets:
     get:
-      summary: 'Получить тикеты'
-      description: 'Получаем все билеты'
+      summary: 'Get tickets'
+      description: 'Get all tickets'
       operationId: 'getTickets'
       tags:
         - 'Tickets'
@@ -101,13 +101,13 @@ paths:
         - token: []
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Description of response'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/TicketResponseArray'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -121,13 +121,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example:  'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
@@ -160,8 +160,8 @@ paths:
                 $ref: '#/components/schemas/ErrorModel'
 
     post:
-      summary: 'Создать тикет'
-      description: 'Создаем билетикуса'
+      summary: 'Create ticket'
+      description: 'Create ticket'
       operationId: 'OpID1'
       tags:
         - 'Tickets'
@@ -175,13 +175,13 @@ paths:
         - token: []
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Description of response'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/TicketResponse'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -195,19 +195,19 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/UnauthorizedError'
         '405':
-          description: 'Валидейшон эксепшон я в париже'
+          description: 'Validation exception'
           content:
             application/xml:
               schema:
@@ -221,7 +221,7 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Ошибка валидации'
+                    example: 'Validation exception'
                   time:
                     type: string
                     format: date-time
@@ -258,8 +258,8 @@ paths:
     get:
       tags:
         - 'Tickets'
-      summary: 'Получить тикет по айди'
-      description: 'Получаем билетик по айдишечке'
+      summary: 'Get ticket by id'
+      description: 'Get ticket by id'
       operationId: 'OpID3'
       security:
         - token: []
@@ -267,7 +267,7 @@ paths:
         - name: id
           in: path
           schema:
-            description: 'Айди тикетика'
+            description: 'Id of ticket'
             type: integer
             format: int64
             nullable: false
@@ -277,13 +277,13 @@ paths:
           required: true
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Response description'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/TicketResponse'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -297,13 +297,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
@@ -339,8 +339,8 @@ paths:
     put:
       tags:
         - 'Tickets'
-      summary: 'Обновить тикет по айди'
-      description: 'Обновляем билетик по айдишечке'
+      summary: 'Update ticket by id'
+      description: 'Update ticket by id'
       operationId: 'OpID4'
       security:
         - token: []
@@ -348,7 +348,7 @@ paths:
         - name: id
           in: path
           schema:
-            description: 'Айди тикетика'
+            description: 'Ticket id'
             type: integer
             format: int64
             nullable: false
@@ -364,13 +364,13 @@ paths:
               $ref: '#/components/schemas/Ticket'
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Response description'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/TicketResponse'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -384,13 +384,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
@@ -426,8 +426,8 @@ paths:
     delete:
       tags:
         - 'Tickets'
-      summary: 'Удалить тикет по айди'
-      description: 'Удаляем билетик по айдишечке'
+      summary: 'Delete ticket by id'
+      description: 'Delete ticket by id'
       operationId: 'OpID5'
       security:
         - token: []
@@ -435,7 +435,7 @@ paths:
         - name: id
           in: path
           schema:
-            description: 'Айди тикетика'
+            description: 'Ticket id'
             type: integer
             format: int64
             nullable: false
@@ -445,7 +445,7 @@ paths:
           required: true
       responses:
         '204':
-          description: 'Описание ответа что отлично удалили'
+          description: 'Response description about success delete'
           content:
             application/xml:
               schema:
@@ -459,13 +459,13 @@ paths:
                     example: 204
                   message:
                     type: string
-                    example: 'Тикет с id=1 успешно удален!!!'
+                    example: 'Ticket with id=1 successfully deleted!!!'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -479,13 +479,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
@@ -521,14 +521,14 @@ paths:
     get:
       tags:
         - 'Tickets Util'
-      summary: 'Получить сумму всех билетов'
-      description: 'Получаем мани в наши кармани'
+      summary: 'Get sum of all tickets'
+      description: 'Get sum of all tickets'
       operationId: 'OpID6'
       security:
         - token: []
       responses:
         '200':
-          description: 'Описание ответа что вот держите сумму'
+          description: 'Response description что вот держите сумму'
           content:
             application/xml:
               schema:
@@ -541,7 +541,7 @@ paths:
                 minimum: 0.0
                 maximum: 1.7976931348623157E308
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -555,13 +555,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
@@ -598,20 +598,20 @@ paths:
     get:
       tags:
         - 'Tickets Util'
-      summary: 'Получить минимум по Venue'
-      description: 'Получаем мини по веню'
+      summary: 'Get minimum of Venue'
+      description: 'Get minimum of Venue'
       operationId: 'OpID7'
       security:
         - token: []
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Response description'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/TicketResponse'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -625,13 +625,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
@@ -667,20 +667,20 @@ paths:
     get:
       tags:
         - 'Tickets Util'
-      summary: 'Получить уникальные Venue'
-      description: 'Получаем уники венюшек'
+      summary: 'Get unique Venue'
+      description: Get unique Venue'
       operationId: 'OpID8'
       security:
         - token: []
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Response description'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/VenueResponseArray'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -694,13 +694,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
@@ -736,8 +736,8 @@ paths:
     get:
       tags:
         - 'Persons'
-      summary: 'Всех людей'
-      description: 'Получаем всех людей'
+      summary: 'Get all persons'
+      description: 'Get all persons'
       operationId: 'OpID111'
       parameters:
         - in: query
@@ -781,13 +781,13 @@ paths:
         - token: []
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Response description'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/PersonResponseArray'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -801,13 +801,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '401':
-          description: 'Не авторизован!'
+          description: 'Not authorized!'
           content:
             application/xml:
               schema:
@@ -842,8 +842,8 @@ paths:
     post:
       tags:
         - 'Persons'
-      summary: 'Создать челика'
-      description: 'Создаем персону'
+      summary: 'Create person'
+      description: 'Create person'
       operationId: 'OpID112'
       requestBody:
         required: true
@@ -853,13 +853,13 @@ paths:
               $ref: '#/components/schemas/Person'
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Response description'
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/PersonResponse'
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -873,13 +873,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '405':
-          description: 'Валидейшон эксепшон я в париже'
+          description: 'Validation exception'
           content:
             application/xml:
               schema:
@@ -893,7 +893,7 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Ошибка валидации'
+                    example: 'Validation error'
                   time:
                     type: string
                     format: date-time
@@ -929,8 +929,8 @@ paths:
     post:
       tags:
         - 'Persons'
-      summary: 'Получить токен доступа'
-      description: 'Получаем токен доступа'
+      summary: 'Get access token'
+      description: 'Get access token'
       operationId: 'OpID114'
       requestBody:
         required: true
@@ -940,21 +940,21 @@ paths:
               $ref: '#/components/schemas/Person'
       responses:
         '200':
-          description: 'Описание ответа'
+          description: 'Response description'
           content:
             application/xml:
               schema:
                 xml:
                   name: 'token'
                 title: 'TokenResponse'
-                description: 'Токенчик'
+                description: 'Token'
                 type: string
                 nullable: false
                 example: 'fd4698c940c6d1da602a70ac34f0b147'
                 minLength: 32
                 maxLength: 512
         '400':
-          description: 'Невалидный запрос'
+          description: 'Invalid request'
           content:
             application/xml:
               schema:
@@ -968,13 +968,13 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Невалидный запрос'
+                    example: 'Invalid request'
                   time:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
         '405':
-          description: 'Валидейшон эксепшон я в париже'
+          description: 'Validation exception'
           content:
             application/xml:
               schema:
@@ -988,7 +988,7 @@ paths:
                     example: 400
                   message:
                     type: string
-                    example: 'Ошибка валидации'
+                    example: 'Validation error'
                   time:
                     type: string
                     format: date-time
@@ -1029,7 +1029,7 @@ components:
       type: object
       properties:
         zipCode:
-          description: 'Зип кодик'
+          description: 'Zip code'
           type: string
           nullable: false
           example: '33701-4313'
@@ -1041,7 +1041,7 @@ components:
       type: object
       properties:
         x:
-          description: 'Иксовая координата'
+          description: 'X coordinate'
           type: number
           format: double
           nullable: false
@@ -1049,7 +1049,7 @@ components:
           minimum: 4.9E-324
           maximum: 1.7976931348623157E308
         y:
-          description: 'Игрековая координата'
+          description: 'Y coordinate'
           type: number
           format: float
           nullable: false
@@ -1059,7 +1059,7 @@ components:
 
     TicketType:
       title: 'TicketType'
-      description: 'Тип тикета без null!'
+      description: 'TicketType without null!'
       type: string
       enum:
         - VIP
@@ -1071,7 +1071,7 @@ components:
 
     VenueType:
       title: 'VenueType'
-      description: 'Тип места встречи без null!'
+      description: 'VenueType without null!'
       type: string
       enum:
         - BAR
@@ -1093,7 +1093,7 @@ components:
           minLength: 1
           maxLength: 2147483647
         capacity:
-          description: 'Капасити венюшечки'
+          description: 'Capacity of venue'
           type: integer
           format: int64
           nullable: false
@@ -1120,7 +1120,7 @@ components:
         coordinates:
           $ref: '#/components/schemas/Coordinates'
         price:
-          description: 'Цена билета'
+          description: 'Price of ticket'
           type: number
           format: double
           nullable: false
@@ -1141,7 +1141,7 @@ components:
         - type: object
           properties:
             id:
-              description: 'Айди венюшечки'
+              description: 'Venue id'
               type: integer
               format: int32
               nullable: false
@@ -1157,7 +1157,7 @@ components:
         - type: object
           properties:
             id:
-              description: 'Айди тикетика'
+              description: 'Ticket id'
               type: integer
               format: int64
               nullable: false
@@ -1176,7 +1176,7 @@ components:
         - type: object
           properties:
             is_sold:
-              description: 'Билет продан'
+              description: 'Ticket is sold'
               type: boolean
               nullable: false
               default: false
@@ -1208,7 +1208,7 @@ components:
         - type: object
           properties:
             id:
-              description: 'Айди челика'
+              description: 'Person id'
               type: integer
               format: int64
               nullable: false
@@ -1220,7 +1220,7 @@ components:
         - type: object
           properties:
             balance:
-              description: 'Баланс челика'
+              description: 'Balance of person'
               type: number
               format: double
               nullable: false
@@ -1231,37 +1231,37 @@ components:
         - type: object
           properties:
             tickets:
-              description: 'Купленные билеты'
+              description: 'Bought tickets'
               type: array
               items:
                 $ref: '#/components/schemas/TicketResponse'
 
     TicketResponseArray:
-      title: 'Билетикусы'
+      title: 'Tickets'
       type: object
       properties:
         ticket:
-          title: 'Массив тикетов'
+          title: 'Array of tickets'
           type: array
           items:
             $ref: '#/components/schemas/TicketResponse'
 
     VenueResponseArray:
-      title: 'Веньюсы'
+      title: 'Venues'
       type: object
       properties:
         venue:
-          title: 'Массив веньюсов'
+          title: 'Array of venues'
           type: array
           items:
             $ref: '#/components/schemas/VenueResponse'
 
     PersonResponseArray:
-      title: 'Персоны'
+      title: 'Persons'
       type: object
       properties:
         persons:
-          title: 'Массив персон'
+          title: 'Array of persons'
           type: array
           items:
             $ref: '#/components/schemas/PersonResponse'
@@ -1281,7 +1281,7 @@ components:
           example: 418
         message:
           type: string
-          example: 'Я - чайник'
+          example: 'I am teapot'
         time:
           type: string
           format: date-time
@@ -1302,7 +1302,7 @@ components:
           example: 401
         message:
           type: string
-          example: 'Не авторизован!'
+          example: 'Not authorized!'
         time:
           type: string
           format: date-time
@@ -1311,7 +1311,7 @@ components:
   securitySchemes:
     token:
       type: apiKey
-      description: 'Токенчик'
+      description: 'Token'
       name: 'Token'
       in: header
 
