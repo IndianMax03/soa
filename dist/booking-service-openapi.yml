@@ -13,8 +13,8 @@ paths:
     post:
       tags:
         - 'Tag1'
-      summary: 'Продать билет'
-      description: 'Продать определенный билет кому-то за какую-то цену'
+      summary: 'Sell tickets'
+      description: 'Sell some ticket to someone for some'
       operationId: 'OpID10'
       security:
         - token: []
@@ -22,7 +22,7 @@ paths:
         - name: ticket-id
           in: path
           schema: 
-            description: 'Айди тикетика'
+            description: 'Id of ticket'
             type: integer
             format: int64
             nullable: false
@@ -33,7 +33,7 @@ paths:
         - name: person-id
           in: path
           schema: 
-             description: 'Айди челика'
+             description: 'Id of person'
              type: integer
              format: int64
              nullable: false
@@ -45,7 +45,7 @@ paths:
         - name: price
           in: path
           schema: 
-            description: 'Цена билета'
+            description: 'Price of ticket'
             type: number
             format: double
             nullable: false
@@ -113,8 +113,8 @@ paths:
     post:
       tags:
         - 'Tag1'
-      summary: 'Продать билет со скидкой'
-      description: 'Создать билет на основе указанного и продать его определенному человеку с указанной в % скидкой'
+      summary: 'Sell ticket with discount'
+      description: 'Create ticket based on the specified ticket and sell it to some person with specified discount %'
       operationId: 'OpID11'
       security:
         - token: []
@@ -122,7 +122,7 @@ paths:
          - name: ticket-id
            in: path
            schema: 
-              description: 'Айди тикетика'
+              description: 'Id of ticket'
               type: integer
               format: int64
               nullable: false
@@ -133,7 +133,7 @@ paths:
          - name: person-id
            in: path
            schema: 
-             description: 'Айди челика'
+             description: 'Id of person'
              type: integer
              format: int64
              nullable: false
@@ -145,7 +145,7 @@ paths:
          - name: discount
            in: path
            schema: 
-              description: 'Цена билета'
+              description: 'Price of ticket'
               type: number
               format: int64
               nullable: false
