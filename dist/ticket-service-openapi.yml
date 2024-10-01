@@ -517,7 +517,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorModel'
 
-  /tickets/price-sum:
+  /tickets/price/sum:
     get:
       tags:
         - 'Tickets Util'
@@ -594,7 +594,7 @@ paths:
                 $ref: '#/components/schemas/ErrorModel'
 
 
-  /tickets/venue-min:
+  /tickets/venue/min:
     get:
       tags:
         - 'Tickets Util'
