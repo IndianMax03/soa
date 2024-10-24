@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tickets")
 @Slf4j
+@CrossOrigin(origins = "*")
 public class TicketsController {
 
     @Autowired
