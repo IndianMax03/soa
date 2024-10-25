@@ -1,28 +1,28 @@
 export enum TicketType {
-    VIP,
-    BUDGETARY,
-    CHEAP
+  VIP,
+  BUDGETARY,
+  CHEAP
 }
 
-export enum VenueType{
-    BAR,
-    CINEMA,
-    STADIUM
+export enum VenueType {
+  BAR,
+  CINEMA,
+  STADIUM
 }
 
 export type Address = {
-    zipcode: string
-}
+  zipcode: string;
+};
 
 export type Venue = {
-    id: number,
-    name: string,
-    capacity: number,
-    type: VenueType,
-    address: Address
-}
+  id: number;
+  name: string;
+  capacity: number;
+  type: VenueType;
+  address: Address;
+};
 
 export type Coordinates = {
-    x: number,
-    y: number
-}
+  x: number;
+  y: number;
+};
