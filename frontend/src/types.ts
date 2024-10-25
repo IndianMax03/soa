@@ -1,22 +1,21 @@
 export enum TicketType {
-  VIP,
-  BUDGETARY,
-  CHEAP
+  VIP = 'VIP',
+  BUDGETARY = 'Budgetary',
+  CHEAP = 'Cheap'
 }
 
 export enum VenueType {
-  BAR,
-  CINEMA,
-  STADIUM
+  BAR = 'Bar',
+  CINEMA = 'Cinema',
+  STADIUM = 'Stadium'
 }
 
 export type Address = {
   // length > 10
-  zipcode: string;
+  zipCode: string;
 };
 
 export type Venue = {
-  id: number;
   name: string;
   capacity: number;
   type: VenueType;
@@ -26,4 +25,19 @@ export type Venue = {
 export type Coordinates = {
   x: number;
   y: number;
+};
+
+export type Person = {
+  username: string;
+  password: string;
+};
+
+export type Ticket = {
+  id?: number;
+  name: string;
+  coordinates: Coordinates;
+  price: number;
+  sold: boolean;
+  type: TicketType;
+  venue: Venue;
 };

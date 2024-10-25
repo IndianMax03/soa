@@ -1,11 +1,18 @@
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import { EnterForm } from './components/EnterForm';
+import { TicketPage } from './components/TicketPage';
+import { PersonsPage } from './components/PersonsPage';
+import { Layout } from './components/Layout';
 
 function App() {
   return (
-    <>
-      <EnterForm />
-    </>
+    <Layout>
+      <Routes>
+        <Route path="/tickets" element={<TicketPage />} />
+        <Route path="/persons" element={<PersonsPage />} />
+        {/* <Route path="*" element={<PageNotFound />} /> */}
+      </Routes>
+    </Layout>
   );
 }
 

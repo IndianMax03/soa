@@ -3,7 +3,7 @@ import apiClient from './apiClient';
 export const getAllPersons = async () => {
   try {
     const response = await apiClient.get('/persons');
-    return response.data;
+    return response.PersonResponseArray.persons.person;
   } catch (error) {
     console.log(error);
   }

@@ -4,7 +4,7 @@ import apiClient from './apiClient';
 export const getTickets = async () => {
   try {
     const response = await apiClient.get('/tickets');
-    return response.data;
+    return response.TicketResponseArray.tickets.ticket;
   } catch (error) {
     console.log(error);
   }
