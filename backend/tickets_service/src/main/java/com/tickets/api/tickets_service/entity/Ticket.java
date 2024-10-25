@@ -48,7 +48,7 @@ public class Ticket {
     private TicketType type; //Поле не может быть null
 
     @NotNull
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "venue_id")
     private Venue venue; //Поле может быть null
 

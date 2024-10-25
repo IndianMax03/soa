@@ -29,7 +29,7 @@ public class PersonsController {
 
     @PostMapping
     public Person createPersons(@RequestBody Person person) {
-        person.setBalance(10000);
+        if (person.getId() == 0) person.setBalance(10000);
         return personService.createPerson(person);
     }
 
