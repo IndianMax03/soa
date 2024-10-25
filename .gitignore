@@ -23,3 +23,5 @@ backend/tickets_service/target/*
 
 backend/booking_service/target/*
 !backend/booking_service/target/booking_service.war
+
+frontend/node_modules
