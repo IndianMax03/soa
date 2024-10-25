@@ -4,15 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
-@ToString
 @Entity
 @Table(name = "tickets")
 public class Ticket {
@@ -34,7 +33,10 @@ public class Ticket {
 
     @NotNull
     @Column(name = "creation_date")
-    private java.time.LocalDateTime creationDate = LocalDateTime.now(); //FIXME Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private java.time.LocalDateTime creationDate = LocalDateTime.now(); // Поле не может быть null, Значение этого поля должно генерироваться автоматически
+
+    @Column(name = "is_sold")
+    private boolean isSold;
 
     @DecimalMin(value = "0", inclusive = false)
     @Column(name = "price")
@@ -46,7 +48,7 @@ public class Ticket {
     private TicketType type; //Поле не может быть null
 
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "venue_id")
     private Venue venue; //Поле может быть null
 

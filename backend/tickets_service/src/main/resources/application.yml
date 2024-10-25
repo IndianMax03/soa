@@ -1,12 +1,18 @@
-server:
-  port: 8080
+#server:
+#  port: 8081
 #  contextPath: /api.tickets.com
+server:
+  ssl:
+    key-store: classpath:tickets-service.jks
+    key-store-password: admin_pass
+    key-password: admin_pass
+    key-alias: tickets-service
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tickets_service
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://postgres:5432/tickets_service
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
