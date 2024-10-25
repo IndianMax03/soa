@@ -11,6 +11,7 @@ export enum VenueType {
 }
 
 export type Address = {
+  // length > 10
   zipcode: string;
 };
 

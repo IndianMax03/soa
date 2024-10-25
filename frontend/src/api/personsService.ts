@@ -20,15 +20,3 @@ export const createPerson = async (username: string, password: string) => {
     console.log(error);
   }
 };
-
-export const getAccessToken = async (username: string, password: string) => {
-  try {
-    const response = await apiClient.post('/persons/login', {
-      username,
-      password
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
