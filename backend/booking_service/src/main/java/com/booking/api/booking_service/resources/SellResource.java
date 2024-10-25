@@ -1,16 +1,21 @@
 package com.booking.api.booking_service.resources;
 
+import com.booking.api.booking_service.entity.Address;
+import com.booking.api.booking_service.entity.Ticket;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.logging.Level;
+
 @Path("/sell")
-@Produces("text/plain")
+@Produces("application/xml")
 public class SellResource {
 
     @POST
@@ -21,15 +26,14 @@ public class SellResource {
             @PathParam("price") Double price
     ) {
         try (Client client = ClientBuilder.newBuilder().hostnameVerifier((hostname, session) -> true).build()) {
-            Response result = client
-                    .target("https://tickets-service:8082/tickets_service/tickets")
-                    .request(MediaType.APPLICATION_JSON_TYPE)
+            Response ticketsResponse = client
+                    .target("https://tickets-service:8082/tickets_service/tickets/1")
+                    .request(MediaType.APPLICATION_XML_TYPE)
                     .get();
-            if (result.getStatus() == Response.Status.OK.getStatusCode() && ticketId == 1) {
-                return result;
-            } else {
-                return Response.status(Response.Status.BAD_REQUEST).entity("HAHA LOX").build();
-            }
+
+//            List<Ticket> tickets = ticketsResponse.readEntity(new GenericType<List<Ticket>>(){});
+            Ticket tickets = ticketsResponse.readEntity(Ticket.class);
+            return Response.ok().entity(tickets).build();
         }
     }
 
