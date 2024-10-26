@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Ticket } from '../types';
+import React, { useEffect, useState } from 'react';
+import { Sort, Ticket } from '../types';
 import styles from './ticketsList.module.css';
 import { MdDeleteOutline } from 'react-icons/md';
 import { MdOutlineEdit } from 'react-icons/md';
-import { deleteTicketById, updateTicketById } from '../api/ticketsService';
+import { deleteTicketById, getTickets, updateTicketById } from '../api/ticketsService';
 import { IoCartOutline } from 'react-icons/io5';
 import { FaSort } from 'react-icons/fa';
 import { EditTicketPopup } from './EditTicketPopup';
@@ -12,16 +12,18 @@ type Props = {
   items: Ticket[]; // Ensure items is an array of Ticket type
   setSelectedTicketId: React.Dispatch<React.SetStateAction<number | undefined>>;
   setPopupIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
 };
 
 export const TicketsList: React.FC<Props> = ({
   items = [],
   setSelectedTicketId,
-  setPopupIsVisible
+  setPopupIsVisible,
+  setTickets
 }) => {
   const [editPopupVisible, setEditPopupVisible] = useState(false);
   const [ticketToEdit, setTicketToEdit] = useState<Ticket | null>(null);
-
+  const [sort, setSort] = useState<Sort | undefined>();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
@@ -33,6 +35,22 @@ export const TicketsList: React.FC<Props> = ({
     if (id) {
       await deleteTicketById(id);
     }
+  };
+
+  useEffect(() => {
+    const fetchSortedTickets = async () => {
+      if (sort) {
+        const tickets = await getTickets(sort);
+        setTickets(tickets);
+      }
+    };
+    fetchSortedTickets();
+  }, [sort, setTickets]);
+
+  const handleSort = (name: string) => {
+    setSort((prevSort) =>
+      prevSort?.name === name ? { name, asc: !prevSort.asc } : { name, asc: true }
+    );
   };
 
   const handleTicketBuying = (id: number) => {
@@ -62,19 +80,19 @@ export const TicketsList: React.FC<Props> = ({
         <thead>
           <tr>
             <th>
-              Id <FaSort />
+              Id <FaSort onClick={() => handleSort('id')} />
             </th>
             <th>
-              Name <FaSort />
+              Name <FaSort onClick={() => handleSort('name')} />
             </th>
             <th>
-              Price <FaSort />
+              Price <FaSort onClick={() => handleSort('price')} />
             </th>
             <th>
-              Is Sold <FaSort />
+              Is Sold <FaSort onClick={() => handleSort('sold')} />
             </th>
             <th>
-              Type <FaSort />
+              Type <FaSort onClick={() => handleSort('type')} />
             </th>
             <th>Coordinates (X, Y)</th>
             <th>Venue Name</th>

@@ -42,3 +42,8 @@ export type Ticket = {
   type: TicketType;
   venue: Venue;
 };
+
+export type Sort = {
+  name: string;
+  asc: boolean;
+};

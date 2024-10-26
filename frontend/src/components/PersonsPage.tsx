@@ -18,7 +18,7 @@ export const PersonsPage = () => {
   return (
     <div style={{ display: 'grid', justifyItems: 'center', gap: '20px' }}>
       <PersonForm />
-      <PersonsList items={persons} />
+      <PersonsList items={persons} setPersons={setPersons} />
     </div>
   );
 };

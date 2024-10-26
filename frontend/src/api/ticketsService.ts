@@ -1,12 +1,16 @@
-import { Coordinates, TicketType, Venue } from '../types';
+import { Coordinates, Sort, TicketType, Venue } from '../types';
 import apiClient from './apiClient';
 
-export const getTickets = async () => {
+export const getTickets = async (sort?: Sort) => {
   try {
-    const response = await apiClient.get('/tickets');
-    return response.TicketResponseArray.tickets.ticket;
+    const params = new URLSearchParams();
+    if (sort) {
+      params.append('sort', `${sort.name},${sort.asc ? 'asc' : 'desc'}`);
+    }
+    const response = await apiClient.get('/tickets', { params });
+    return response.TicketResponseArray?.tickets?.ticket;
   } catch (error) {
-    console.log(error);
+    console.error('Error fetching tickets:', error);
   }
 };
 

@@ -1,8 +1,13 @@
+import { Sort } from '../types';
 import apiClient from './apiClient';
 
-export const getAllPersons = async () => {
+export const getAllPersons = async (sort?: Sort) => {
   try {
-    const response = await apiClient.get('/persons');
+    const params = new URLSearchParams();
+    if (sort) {
+      params.append('sort', `${sort.name},${sort.asc ? 'asc' : 'desc'}`);
+    }
+    const response = await apiClient.get('/persons', { params });
     return response.PersonResponseArray.persons.person;
   } catch (error) {
     console.log(error);

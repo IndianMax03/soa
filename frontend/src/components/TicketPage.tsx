@@ -27,6 +27,7 @@ export const TicketPage = () => {
         items={tickets}
         setSelectedTicketId={setSelectedTicketId}
         setPopupIsVisible={setPopupIsVisible}
+        setTickets={setTickets}
       />
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginTop: '20px' }}>
         <TicketForm />

@@ -11,7 +11,7 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use((response: AxiosResponse) => {
   const parser = new DOMParser(); // initialize dom parser
   const srcDOM = parser.parseFromString(response.data, 'application/xml');
-  // console.log(xml2json(srcDOM));
+  console.log(xml2json(srcDOM));
   return xml2json(srcDOM);
 });
 
