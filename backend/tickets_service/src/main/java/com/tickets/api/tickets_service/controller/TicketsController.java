@@ -39,7 +39,7 @@ public class TicketsController {
             @RequestParam(required = false) Double price,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "500") Integer pageSize,
-            @RequestParam(defaultValue = "id,desc") String[] sort
+            @RequestParam(defaultValue = "id,asc") String[] sort
     ) {
 
         List<Order> orders = new ArrayList<>();
@@ -65,6 +65,8 @@ public class TicketsController {
 
         TicketResponseArray response = new TicketResponseArray();
         response.setTickets(tickets);
+        response.setTotalElements(ticketPages.getTotalElements());
+        response.setTotalPages(ticketPages.getTotalPages());
         return response;
     }
 

@@ -36,7 +36,7 @@ public class PersonsController {
             @RequestParam(required = false) Double balance,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "500") Integer pageSize,
-            @RequestParam(defaultValue = "id,desc") String[] sort
+            @RequestParam(defaultValue = "id,asc") String[] sort
     ) {
 
 
@@ -63,7 +63,8 @@ public class PersonsController {
 
         PersonResponseArray response = new PersonResponseArray();
         response.setPersons(persons);
-
+        response.setTotalElements(personPages.getTotalElements());
+        response.setTotalPages(personPages.getTotalPages());
         return response;
     }
 
