@@ -19,6 +19,8 @@ type Props = {
   pageSize: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setPageSize: React.Dispatch<React.SetStateAction<number>>;
+  totalPagesCount: number;
+  setTotalPagesCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const TicketsList: React.FC<Props> = ({
@@ -29,7 +31,9 @@ export const TicketsList: React.FC<Props> = ({
   currentPage,
   pageSize,
   setCurrentPage,
-  setPageSize
+  setPageSize,
+  totalPagesCount,
+  setTotalPagesCount
 }) => {
   const [editPopupVisible, setEditPopupVisible] = useState(false);
   const [filterPopupVisible, setFilterPopupVisible] = useState(false);
@@ -54,22 +58,31 @@ export const TicketsList: React.FC<Props> = ({
   useEffect(() => {
     const fetchSortedTickets = async () => {
       if (sort && filter) {
-        const tickets = await getTickets(currentPage, pageSize, sort, filter);
+        const response = await getTickets(currentPage, pageSize, sort, filter);
+        const tickets = response.TicketResponseArray?.tickets?.ticket;
+        setTotalPagesCount(response.TicketResponseArray.totalPages);
         setTickets(tickets);
       } else if (sort) {
-        const tickets = await getTickets(currentPage, pageSize, sort);
+        const response = await getTickets(currentPage, pageSize, sort);
+        const tickets = response.TicketResponseArray?.tickets?.ticket;
+        setTotalPagesCount(response.TicketResponseArray.totalPages);
         setTickets(tickets);
       } else if (filter) {
-        const tickets = await getTickets(currentPage, pageSize, undefined, filter);
+        const response = await getTickets(currentPage, pageSize, undefined, filter);
+        const tickets = response.TicketResponseArray?.tickets?.ticket;
+        setTotalPagesCount(response.TicketResponseArray.totalPages);
         setTickets(tickets);
       } else {
-        const tickets = await getTickets(currentPage, pageSize);
+
+        const response = await getTickets(currentPage, pageSize);
+        const tickets = response.TicketResponseArray?.tickets?.ticket;
+        setTotalPagesCount(response.TicketResponseArray.totalPages);
         setTickets(tickets);
       }
     };
 
     fetchSortedTickets();
-  }, [sort, setTickets, pageSize, currentPage, filter]);
+  }, [sort, setTickets, pageSize, currentPage, filter, setTotalPagesCount]);
 
   const handleSort = (name: string) => {
     setSort((prevSort) =>
@@ -162,9 +175,15 @@ export const TicketsList: React.FC<Props> = ({
         <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 0}>
           Previous
         </button>
-        <span>Page {currentPage + 1}</span>
-        <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
-
+        <span>
+          Page {currentPage + 1} out of {totalPagesCount}
+        </span>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage + 1 == totalPagesCount}
+        >
+          Next
+        </button>
         <select value={pageSize} onChange={handlePageSizeChange}>
           <option value={5}>5 per page</option>
           <option value={10}>10 per page</option>

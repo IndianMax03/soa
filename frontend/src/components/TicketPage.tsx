@@ -12,10 +12,13 @@ export const TicketPage = () => {
   const [popupIsVisible, setPopupIsVisible] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
+  const [totalPagesCount, setTotalPagesCount] = useState<number>(1);
 
   useEffect(() => {
     (async () => {
-      const tickets = await getTickets(currentPage, pageSize);
+      const response = await getTickets(currentPage, pageSize);
+      const tickets = response.TicketResponseArray?.tickets?.ticket;
+      setTotalPagesCount(response.TicketResponseArray.totalPages);
       setTickets(tickets);
     })();
   }, [setTickets]);
@@ -34,6 +37,8 @@ export const TicketPage = () => {
         pageSize={pageSize}
         setCurrentPage={setCurrentPage}
         setPageSize={setPageSize}
+        totalPagesCount={totalPagesCount}
+        setTotalPagesCount={setTotalPagesCount}
       />
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginTop: '20px' }}>
         <TicketForm />

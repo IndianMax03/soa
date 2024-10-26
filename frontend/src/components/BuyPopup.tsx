@@ -18,7 +18,8 @@ export const BuyPopup = ({ selectedTicketId, onClose }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const persons = await getAllPersons();
+      const response = await getAllPersons();
+      const persons = response.PersonResponseArray.persons.person;
       setPersons(persons);
     })();
   }, []);

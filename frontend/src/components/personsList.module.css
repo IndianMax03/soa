@@ -6,6 +6,31 @@
   padding: 30px;
   border-radius: 10px;
 
+  .ticketsTable {
+    background-color: white;
+    th {
+      padding: 10px;
+    }
+  }
+  .paginationControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    align-items: flex-start;
+  }
+
+  .paginationControls button {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+
+  .paginationControls select {
+    padding: 5px;
+    font-size: 14px;
+  }
+
   img {
     border-radius: 50px;
     height: 70px;

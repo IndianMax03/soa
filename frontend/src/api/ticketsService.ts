@@ -20,7 +20,7 @@ export const getTickets = async (
     params.append('page', page.toString());
     params.append('pageSize', pageSize.toString());
     const response = await apiClient.get('/tickets', { params });
-    return response.TicketResponseArray?.tickets?.ticket;
+    return response;
   } catch (error) {
     console.error('Error fetching tickets:', error);
   }
