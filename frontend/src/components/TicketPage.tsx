@@ -10,10 +10,12 @@ export const TicketPage = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [selectedTicketId, setSelectedTicketId] = useState<number | undefined>();
   const [popupIsVisible, setPopupIsVisible] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     (async () => {
-      const tickets = await getTickets();
+      const tickets = await getTickets(currentPage, pageSize);
       setTickets(tickets);
     })();
   }, [setTickets]);
@@ -28,6 +30,10 @@ export const TicketPage = () => {
         setSelectedTicketId={setSelectedTicketId}
         setPopupIsVisible={setPopupIsVisible}
         setTickets={setTickets}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        setCurrentPage={setCurrentPage}
+        setPageSize={setPageSize}
       />
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginTop: '20px' }}>
         <TicketForm />

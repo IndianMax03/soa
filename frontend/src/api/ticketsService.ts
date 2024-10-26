@@ -1,12 +1,24 @@
 import { Coordinates, Sort, TicketType, Venue } from '../types';
 import apiClient from './apiClient';
 
-export const getTickets = async (sort?: Sort) => {
+export const getTickets = async (
+  page: number,
+  pageSize: number,
+  sort?: Sort,
+  filter?: Map<string, string | number> | undefined
+) => {
   try {
     const params = new URLSearchParams();
     if (sort) {
       params.append('sort', `${sort.name},${sort.asc ? 'asc' : 'desc'}`);
     }
+    if (filter) {
+      filter.forEach((value, key) => {
+        params.append(key, value.toString());
+      });
+    }
+    params.append('page', page.toString());
+    params.append('pageSize', pageSize.toString());
     const response = await apiClient.get('/tickets', { params });
     return response.TicketResponseArray?.tickets?.ticket;
   } catch (error) {

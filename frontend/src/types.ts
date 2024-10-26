@@ -47,3 +47,8 @@ export type Sort = {
   name: string;
   asc: boolean;
 };
+
+export type Filter = {
+  name: string;
+  value: string | number;
+};
