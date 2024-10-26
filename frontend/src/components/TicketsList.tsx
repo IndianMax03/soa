@@ -17,10 +17,15 @@ type Props = {
 export const TicketsList: React.FC<Props> = ({
   items = [],
   setSelectedTicketId,
-  setPopupIsVisible
+  setPopupIsVisible,
 }) => {
   const [editPopupVisible, setEditPopupVisible] = useState(false);
   const [ticketToEdit, setTicketToEdit] = useState<Ticket | null>(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+
+  const totalPages = Math.ceil(items.length / pageSize);
 
   const handleTicketDeletion = async (id: number | undefined) => {
     if (id) {
@@ -38,55 +43,40 @@ export const TicketsList: React.FC<Props> = ({
     setEditPopupVisible(true);
   };
 
+  const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPageSize(Number(event.target.value));
+    setCurrentPage(1);
+  };
+
+  const paginatedItems = items.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
   return (
     <div>
       <table className={styles.ticketsTable}>
         <thead>
           <tr>
-            <th>
-              Id <FaSort />
-            </th>
-            <th>
-              Name <FaSort />
-            </th>
-            <th>
-              Price <FaSort />
-            </th>
-            <th>
-              Is Sold <FaSort />
-            </th>
-            <th>
-              Type <FaSort />
-            </th>
-            <th>
-              Coordinates (X, Y) <FaSort />
-            </th>
-            <th>
-              Venue Name <FaSort />
-            </th>
-            <th>
-              Venue Type <FaSort />
-            </th>
-            <th>
-              Venue Capacity <FaSort />
-            </th>
-            <th>
-              Address Zipcode <FaSort />
-            </th>
+            <th>Id <FaSort /></th>
+            <th>Name <FaSort /></th>
+            <th>Price <FaSort /></th>
+            <th>Is Sold <FaSort /></th>
+            <th>Type <FaSort /></th>
+            <th>Coordinates (X, Y) </th>
+            <th>Venue Name </th>
+            <th>Venue Type </th>
+            <th>Venue Capacity </th>
+            <th>Address Zipcode </th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {items.map((item) => (
+          {paginatedItems.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td className={styles.price}>{item.price}</td>
-              <td>{item.sold ? 'Yes' : 'No'}</td>
+              <td>{item.sold}</td>
               <td>{item.type}</td>
-              <td>
-                {item.coordinates.x}, {item.coordinates.y}
-              </td>
+              <td>{item.coordinates.x}, {item.coordinates.y}</td>
               <td>{item.venue.name}</td>
               <td>{item.venue.type}</td>
               <td>{item.venue.capacity}</td>
@@ -106,6 +96,29 @@ export const TicketsList: React.FC<Props> = ({
           ))}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      <div className={styles.paginationControls}>
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+
+        <select value={pageSize} onChange={handlePageSizeChange}>
+          <option value={5}>5 per page</option>
+          <option value={10}>10 per page</option>
+          <option value={20}>20 per page</option>
+        </select>
+      </div>
 
       {editPopupVisible && ticketToEdit && (
         <EditTicketPopup

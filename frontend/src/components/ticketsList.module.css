@@ -3,4 +3,21 @@
   th {
     padding: 10px;
   }
+  .paginationControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .paginationControls button {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+
+  .paginationControls select {
+    padding: 5px;
+    font-size: 14px;
+  }
 }

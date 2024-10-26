@@ -35,7 +35,6 @@ export const PersonsList: React.FC<Props> = ({ items = [] }) => {
           {items.map((item, index) => (
             <tr key={item.id}>
               <td>
-                {' '}
                 <img src={imageNames[index % imageNames.length]} />
               </td>
               <td>{item.id}</td>
