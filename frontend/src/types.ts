@@ -28,6 +28,7 @@ export type Coordinates = {
 };
 
 export type Person = {
+  id?: number;
   username: string;
   password: string;
 };

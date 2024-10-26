@@ -3,7 +3,7 @@ import apiClient from './apiClient';
 export const getSumOfAllTickets = async () => {
   try {
     const response = await apiClient.get('/tickets/price/sum');
-    return response.data;
+    return response.Sum.sum;
   } catch (error) {
     console.log(error);
   }
@@ -12,7 +12,7 @@ export const getSumOfAllTickets = async () => {
 export const getMinimumOfVenue = async () => {
   try {
     const response = await apiClient.get('/tickets/venue/min');
-    return response.data;
+    return response.Ticket;
   } catch (error) {
     console.log(error);
   }
@@ -21,7 +21,7 @@ export const getMinimumOfVenue = async () => {
 export const getUniqueVenue = async () => {
   try {
     const response = await apiClient.get('/tickets/venue/unique');
-    return response.data;
+    return response.VenueResponseArray.venues.venue;
   } catch (error) {
     console.log(error);
   }

@@ -1,4 +1,6 @@
-.item {
+.ticketsTable {
   background-color: white;
-  border-radius: 20px;
+  th {
+    padding: 10px;
+  }
 }

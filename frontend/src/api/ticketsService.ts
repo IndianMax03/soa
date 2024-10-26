@@ -40,7 +40,14 @@ export const getTicketById = async (id: number) => {
   }
 };
 
-export const updateTicketById = async (id: number) => {
+export const updateTicketById = async (
+  id: number,
+  name?: string,
+  coordinates?: Coordinates,
+  price?: number,
+  type?: TicketType,
+  venue?: Venue
+) => {
   try {
     const response = await apiClient.put(`/tickets/${id}`);
     return response.data;

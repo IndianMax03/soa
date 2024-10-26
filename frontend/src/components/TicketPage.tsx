@@ -4,9 +4,12 @@ import { TicketForm } from './TicketForm';
 import { Ticket } from '../types';
 import { TicketsList } from './TicketsList';
 import { AddictionalInfo } from './AddictionalInfo';
+import { BuyPopup } from './BuyPopup';
 
 export const TicketPage = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [selectedTicketId, setSelectedTicketId] = useState<number | undefined>();
+  const [popupIsVisible, setPopupIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -17,9 +20,16 @@ export const TicketPage = () => {
 
   return (
     <>
+      {popupIsVisible && (
+        <BuyPopup selectedTicketId={selectedTicketId} onClose={() => setPopupIsVisible(false)} />
+      )}
       <TicketForm />
       <AddictionalInfo />
-      <TicketsList items={tickets} />
+      <TicketsList
+        items={tickets}
+        setSelectedTicketId={setSelectedTicketId}
+        setPopupIsVisible={setPopupIsVisible}
+      />
     </>
   );
 };
