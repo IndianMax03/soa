@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Ticket } from '../types';
 import styles from './editTicketPopup.module.css';
+import { IoIosClose } from 'react-icons/io';
 
 type Props = {
   ticket: Ticket;
@@ -30,12 +31,10 @@ export const EditTicketPopup: React.FC<Props> = ({ ticket, onClose, onSave }) =>
     <div className={styles.overlay}>
       <div className={styles.popup}>
         <button className={styles.closeButton} onClick={onClose}>
-          Close
+          <IoIosClose size={30} />
         </button>
         <h3>Edit Ticket</h3>
-        <label>Name</label>
         <input value={name} onChange={(e) => setName(e.target.value)} />
-        <label>Price</label>
         <input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
         <label>Coordinates</label>
         <input

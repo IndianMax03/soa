@@ -23,13 +23,15 @@ export const TicketPage = () => {
       {popupIsVisible && (
         <BuyPopup selectedTicketId={selectedTicketId} onClose={() => setPopupIsVisible(false)} />
       )}
-      <TicketForm />
-      <AddictionalInfo />
       <TicketsList
         items={tickets}
         setSelectedTicketId={setSelectedTicketId}
         setPopupIsVisible={setPopupIsVisible}
       />
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', marginTop: '20px' }}>
+        <TicketForm />
+        <AddictionalInfo />
+      </div>
     </>
   );
 };

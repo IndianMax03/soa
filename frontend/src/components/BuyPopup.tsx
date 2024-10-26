@@ -35,7 +35,7 @@ export const BuyPopup = ({ selectedTicketId, onClose }: Props) => {
   return (
     <div className={styles.overlay}>
       <div className={styles.popup}>
-        <button onClick={onClose}>
+        <button onClick={onClose} className={styles.closeButton}>
           <IoIosClose />
         </button>
         <select

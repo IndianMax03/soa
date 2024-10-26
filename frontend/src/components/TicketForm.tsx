@@ -25,7 +25,7 @@ export const TicketForm = () => {
 
   return (
     <div className={styles.form}>
-      Create ticket
+      <div>Create ticket</div>
       <input placeholder="Name" type="text" onChange={(e) => setName(e.target.value)} />
       <input
         placeholder="X coordinate"
@@ -48,7 +48,7 @@ export const TicketForm = () => {
           </option>
         ))}
       </select>
-      Venue
+      <div>Venue</div>
       <input placeholder="Name" type="text" onChange={(e) => setVenueName(e.target.value)} />
       <input
         placeholder="Capacity"
@@ -65,7 +65,7 @@ export const TicketForm = () => {
           </option>
         ))}
       </select>
-      Address
+      <div>Address</div>
       <input placeholder="Zip code" type="text" onChange={(e) => setZipCode(e.target.value)} />
       <button onClick={handleTicketCreation}>Create</button>
     </div>

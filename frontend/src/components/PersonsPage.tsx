@@ -16,7 +16,7 @@ export const PersonsPage = () => {
   }, [setPersons]);
 
   return (
-    <div>
+    <div style={{ display: 'grid', justifyItems: 'center', gap: '20px' }}>
       <PersonForm />
       <PersonsList items={persons} />
     </div>
