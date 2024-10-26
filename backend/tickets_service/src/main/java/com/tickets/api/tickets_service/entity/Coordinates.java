@@ -17,7 +17,6 @@ public class Coordinates {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @JsonIgnore
     private long id;
 
     @Column(name = "x")

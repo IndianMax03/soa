@@ -13,6 +13,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @ToString
+@EqualsAndHashCode
 @Entity
 @Table(name = "venues")
 public class Venue implements Comparable<Venue> {
@@ -49,19 +50,4 @@ public class Venue implements Comparable<Venue> {
         return Long.compare(this.capacity, o.capacity);
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Venue venue = (Venue) object;
-        if (this.id == venue.id && this.id != 0) {
-            return true;
-        }
-        return capacity == venue.capacity && Objects.equals(name, venue.name) && type == venue.type && Objects.equals(address, venue.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, capacity, type, address);
-    }
 }

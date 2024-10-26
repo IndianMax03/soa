@@ -1,22 +1,32 @@
 package com.booking.api.booking_service.resources;
 
-import com.booking.api.booking_service.entity.Address;
+import com.booking.api.booking_service.dto.PersonResponseArray;
+import com.booking.api.booking_service.dto.TicketResponseArray;
+import com.booking.api.booking_service.entity.Person;
 import com.booking.api.booking_service.entity.Ticket;
+import com.booking.api.booking_service.service.ClientService;
+import com.booking.api.booking_service.service.TicketWindowService;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Request;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
 import java.util.logging.Level;
 
 @Path("/sell")
 @Produces("application/xml")
 public class SellResource {
+
+    @Inject
+    TicketWindowService ticketWindowService;
 
     @POST
     @Path("/{ticket-id}/{person-id}/{price}")
@@ -25,16 +35,8 @@ public class SellResource {
             @PathParam("person-id") Integer personId,
             @PathParam("price") Double price
     ) {
-        try (Client client = ClientBuilder.newBuilder().hostnameVerifier((hostname, session) -> true).build()) {
-            Response ticketsResponse = client
-                    .target("https://tickets-service:8082/tickets_service/tickets/1")
-                    .request(MediaType.APPLICATION_XML_TYPE)
-                    .get();
-
-//            List<Ticket> tickets = ticketsResponse.readEntity(new GenericType<List<Ticket>>(){});
-            Ticket tickets = ticketsResponse.readEntity(Ticket.class);
-            return Response.ok().entity(tickets).build();
-        }
+        Person updatedPerson = ticketWindowService.sellTicketToPerson(ticketId, personId, price);
+        return Response.ok().entity(updatedPerson).build();
     }
 
     @POST
@@ -44,7 +46,8 @@ public class SellResource {
             @PathParam("person-id") Integer personId,
             @PathParam("discount") Integer discountPercent
     ) {
-        return Response.ok().entity("SOLD WITH DISCOUNT = " + discountPercent + " %").build();
+        Person updatedPerson = ticketWindowService.sellTicketToPersonWithDiscount(ticketId, personId, discountPercent);
+        return Response.ok().entity(updatedPerson).build();
     }
 
 }
