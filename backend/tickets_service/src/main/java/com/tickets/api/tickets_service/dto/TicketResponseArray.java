@@ -20,4 +20,10 @@ public class TicketResponseArray {
     @XmlElement(name = "ticket")
     private List<Ticket> tickets;
 
+    @XmlElement
+    private int totalPages;
+
+    @XmlElement
+    private long totalElements;
+
 }

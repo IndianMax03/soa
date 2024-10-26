@@ -19,4 +19,10 @@ public class PersonResponseArray {
     @XmlElement(name = "person")
     private List<Person> persons;
 
+    @XmlElement
+    private int totalPages;
+
+    @XmlElement
+    private long totalElements;
+
 }
