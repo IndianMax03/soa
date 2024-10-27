@@ -1,4 +1,4 @@
-import { Coordinates, Sort, TicketType, Venue } from '../types';
+import { Coordinates, Sort, Ticket, TicketType, Venue } from '../types';
 import apiClient from './apiClient';
 
 export const getTickets = async (
@@ -56,16 +56,15 @@ export const getTicketById = async (id: number) => {
   }
 };
 
-export const updateTicketById = async (
-  id: number,
-  name?: string,
-  coordinates?: Coordinates,
-  price?: number,
-  type?: TicketType,
-  venue?: Venue
-) => {
+export const updateTicketById = async (ticket: Ticket) => {
   try {
-    const response = await apiClient.put(`/tickets/${id}`);
+    const response = await apiClient.put(`/tickets/${ticket.id}`, {
+      name: ticket.name,
+      price: ticket.price,
+      type: ticket.type,
+      venue: ticket.venue,
+      coordinates: ticket.coordinates
+    });
     return response.data;
   } catch (error) {
     console.log(error);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Filter, Sort, Ticket } from '../types';
+import { Sort, Ticket } from '../types';
 import styles from './ticketsList.module.css';
 import { MdDeleteOutline } from 'react-icons/md';
 import { MdOutlineEdit } from 'react-icons/md';
@@ -41,46 +41,39 @@ export const TicketsList: React.FC<Props> = ({
   const [sort, setSort] = useState<Sort | undefined>();
   const [filter, setFilter] = useState<Map<string, string | number> | undefined>();
 
-  const handleTicketDeletion = async (id: number | undefined) => {
-    if (id) {
-      await deleteTicketById(id);
-    }
-  };
-
   useEffect(() => {
-    if (!Array.isArray(items)) {
+    if (!Array.isArray(items) && items) {
       const arr: Array<Ticket> = [];
       arr.push(items);
       setTickets(arr);
     }
   }, [items, setTickets]);
 
+  const fetchSortedTickets = async () => {
+    if (sort && filter) {
+      const response = await getTickets(currentPage, pageSize, sort, filter);
+      const tickets = await response.TicketResponseArray?.tickets?.ticket;
+      setTotalPagesCount(response.TicketResponseArray.totalPages);
+      await setTickets(tickets);
+    } else if (sort) {
+      const response = await getTickets(currentPage, pageSize, sort);
+      const tickets = await response.TicketResponseArray?.tickets?.ticket;
+      setTotalPagesCount(response.TicketResponseArray.totalPages);
+      await setTickets(tickets);
+    } else if (filter) {
+      const response = await getTickets(currentPage, pageSize, undefined, filter);
+      const tickets = await response.TicketResponseArray?.tickets?.ticket;
+      await setTickets(tickets);
+      setTotalPagesCount(response.TicketResponseArray.totalPages);
+    } else {
+      const response = await getTickets(currentPage, pageSize);
+      const tickets = await response.TicketResponseArray?.tickets?.ticket;
+      setTotalPagesCount(response.TicketResponseArray.totalPages);
+      await setTickets(tickets);
+    }
+  };
+
   useEffect(() => {
-    const fetchSortedTickets = async () => {
-      if (sort && filter) {
-        const response = await getTickets(currentPage, pageSize, sort, filter);
-        const tickets = response.TicketResponseArray?.tickets?.ticket;
-        setTotalPagesCount(response.TicketResponseArray.totalPages);
-        setTickets(tickets);
-      } else if (sort) {
-        const response = await getTickets(currentPage, pageSize, sort);
-        const tickets = response.TicketResponseArray?.tickets?.ticket;
-        setTotalPagesCount(response.TicketResponseArray.totalPages);
-        setTickets(tickets);
-      } else if (filter) {
-        const response = await getTickets(currentPage, pageSize, undefined, filter);
-        const tickets = response.TicketResponseArray?.tickets?.ticket;
-        setTotalPagesCount(response.TicketResponseArray.totalPages);
-        setTickets(tickets);
-      } else {
-
-        const response = await getTickets(currentPage, pageSize);
-        const tickets = response.TicketResponseArray?.tickets?.ticket;
-        setTotalPagesCount(response.TicketResponseArray.totalPages);
-        setTickets(tickets);
-      }
-    };
-
     fetchSortedTickets();
   }, [sort, setTickets, pageSize, currentPage, filter, setTotalPagesCount]);
 
@@ -90,14 +83,25 @@ export const TicketsList: React.FC<Props> = ({
     );
   };
 
-  const handleTicketBuying = (id: number) => {
-    setSelectedTicketId(id);
-    setPopupIsVisible(true);
+  const handleClose = async () => {
+    await setEditPopupVisible(false);
+  };
+
+  const handleTicketDeletion = async (id: number | undefined) => {
+    if (id) {
+      await deleteTicketById(id);
+      fetchSortedTickets();
+    }
   };
 
   const handleTicketEdit = (ticket: Ticket) => {
     setTicketToEdit(ticket);
     setEditPopupVisible(true);
+  };
+
+  const handleTicketBuying = (id: number) => {
+    setSelectedTicketId(id);
+    setPopupIsVisible(true);
   };
 
   const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -131,7 +135,7 @@ export const TicketsList: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {items.length > 0 ? (
+          {items && items.length > 0 ? (
             items.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
@@ -205,9 +209,9 @@ export const TicketsList: React.FC<Props> = ({
       {editPopupVisible && ticketToEdit && (
         <EditTicketPopup
           ticket={ticketToEdit}
-          onClose={() => setEditPopupVisible(false)}
+          onClose={handleClose}
           onSave={(updatedTicket) => {
-            updateTicketById(updatedTicket.id, updatedTicket);
+            updateTicketById(updatedTicket);
             setEditPopupVisible(false);
           }}
         />

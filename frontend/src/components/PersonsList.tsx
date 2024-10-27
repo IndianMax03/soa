@@ -4,6 +4,7 @@ import styles from './personsList.module.css';
 import { FaSort } from 'react-icons/fa';
 import { getAllPersons } from '../api/personsService';
 import { CiFilter } from 'react-icons/ci';
+import { PersonsFilterPopup } from './PersonsFilterPopup';
 
 type Props = {
   items: Person[];
@@ -33,26 +34,32 @@ export const PersonsList: React.FC<Props> = ({
   const [filter, setFilter] = useState<Map<string, string | number> | undefined>();
 
   useEffect(() => {
+    if (!Array.isArray(items)) {
+      const arr: Array<Person> = [];
+      arr.push(items);
+      console.log(arr);
+      setPersons(arr);
+    }
+  }, [items, setPersons]);
+
+  useEffect(() => {
     const fetchSortedPersons = async () => {
       if (sort && filter) {
         const response = await getAllPersons(currentPage, pageSize, sort, filter);
         const persons = response.PersonResponseArray.persons.person;
         setTotalPagesCount(response.PersonResponseArray.totalPages);
         setPersons(persons);
-      }
-      else if (sort){
-        const response = await getAllPersons(currentPage, pageSize,sort);
+      } else if (sort) {
+        const response = await getAllPersons(currentPage, pageSize, sort);
         const persons = response.PersonResponseArray.persons.person;
         setTotalPagesCount(response.PersonResponseArray.totalPages);
         setPersons(persons);
-      }
-      else if (filter){
-        const response = await getAllPersons(currentPage, pageSize,undefined, filter);
+      } else if (filter) {
+        const response = await getAllPersons(currentPage, pageSize, undefined, filter);
         const persons = response.PersonResponseArray.persons.person;
         setTotalPagesCount(response.PersonResponseArray.totalPages);
         setPersons(persons);
-      }
-      else{
+      } else {
         const response = await getAllPersons(currentPage, pageSize);
         const persons = response.PersonResponseArray.persons.person;
         setTotalPagesCount(response.PersonResponseArray.totalPages);
@@ -72,7 +79,6 @@ export const PersonsList: React.FC<Props> = ({
     setPageSize(Number(event.target.value));
     setCurrentPage(0);
   };
-
 
   if (items.length === 0) {
     return <div>No persons available.</div>;
@@ -110,16 +116,24 @@ export const PersonsList: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {items.map((item, index) => (
-            <tr key={item.id}>
-              <td>
-                <img src={imageNames[index % imageNames.length]} />
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <tr key={item.id}>
+                <td>
+                  <img src={imageNames[index % imageNames.length]} />
+                </td>
+                <td>{item.id}</td>
+                <td>{item.username}</td>
+                <td>{item.password} </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={11} style={{ textAlign: 'center' }}>
+                No persons available.
               </td>
-              <td>{item.id}</td>
-              <td>{item.username}</td>
-              <td>{item.password}</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
       <div className={styles.paginationControls}>
@@ -144,6 +158,14 @@ export const PersonsList: React.FC<Props> = ({
           <CiFilter />
         </button>
       </div>
+
+      {filterPopupVisible && (
+        <PersonsFilterPopup
+          onClose={() => setFilterPopupVisible(false)}
+          filter={filter}
+          setFilter={setFilter}
+        />
+      )}
     </div>
   );
 };

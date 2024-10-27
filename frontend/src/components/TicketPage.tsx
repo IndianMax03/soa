@@ -7,27 +7,32 @@ import { AddictionalInfo } from './AddictionalInfo';
 import { BuyPopup } from './BuyPopup';
 
 export const TicketPage = () => {
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<Ticket[] | undefined>([]);
   const [selectedTicketId, setSelectedTicketId] = useState<number | undefined>();
   const [popupIsVisible, setPopupIsVisible] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const [totalPagesCount, setTotalPagesCount] = useState<number>(1);
 
+  const fetch = async () => {
+    const response = await getTickets(currentPage, pageSize);
+    const tickets = response.TicketResponseArray?.tickets?.ticket;
+    setTotalPagesCount(response.TicketResponseArray.totalPages);
+    setTickets(tickets);
+  };
+
+  const handleClose = () => {
+    setPopupIsVisible(false);
+    fetch();
+  };
+
   useEffect(() => {
-    (async () => {
-      const response = await getTickets(currentPage, pageSize);
-      const tickets = response.TicketResponseArray?.tickets?.ticket;
-      setTotalPagesCount(response.TicketResponseArray.totalPages);
-      setTickets(tickets);
-    })();
+    fetch();
   }, [setTickets]);
 
   return (
     <>
-      {popupIsVisible && (
-        <BuyPopup selectedTicketId={selectedTicketId} onClose={() => setPopupIsVisible(false)} />
-      )}
+      {popupIsVisible && <BuyPopup selectedTicketId={selectedTicketId} onClose={handleClose} />}
       <TicketsList
         items={tickets}
         setSelectedTicketId={setSelectedTicketId}

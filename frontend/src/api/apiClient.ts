@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { xml2json } from '../util/converter';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8081/tickets_service',
+  baseURL: 'https://localhost:8082/tickets_service',
   headers: {
     'Content-Type': 'application/json'
   }

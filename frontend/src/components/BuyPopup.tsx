@@ -15,10 +15,11 @@ export const BuyPopup = ({ selectedTicketId, onClose }: Props) => {
   const [personId, setPersonId] = useState<number | undefined>(undefined);
   const [discount, setDiscount] = useState<number | undefined>(undefined);
   const [price, setPrice] = useState<number>(0);
+  const [withDiscount, setWithDiscount] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      const response = await getAllPersons();
+      const response = await getAllPersons(0, 100);
       const persons = response.PersonResponseArray.persons.person;
       setPersons(persons);
     })();
@@ -52,11 +53,26 @@ export const BuyPopup = ({ selectedTicketId, onClose }: Props) => {
             </option>
           ))}
         </select>
-        <input
-          placeholder="Enter discount if necessary"
-          onChange={(e) => setDiscount(Number(e.target.value))}
-        />
-        <input placeholder="Enter price" onChange={(e) => setPrice(Number(e.target.value))} />
+        {withDiscount && (
+          <>
+            <button onClick={() => setWithDiscount(false)}>Without Discount</button>
+            <input
+              style={{ marginTop: '20px' }}
+              placeholder="Enter discount"
+              onChange={(e) => setDiscount(Number(e.target.value))}
+            />
+          </>
+        )}
+        {!withDiscount && (
+          <>
+            <button onClick={() => setWithDiscount(true)}>With Discount</button>
+            <input
+              placeholder="Enter price"
+              style={{ marginTop: '20px' }}
+              onChange={(e) => setPrice(Number(e.target.value))}
+            />
+          </>
+        )}
         <button onClick={handleTicketBuy}>Buy</button>
       </div>
     </div>
