@@ -16,8 +16,6 @@ paths:
       summary: 'Sell tickets'
       description: 'Sell some ticket to someone for some'
       operationId: 'OpID10'
-      security:
-        - token: []
       parameters:
         - name: ticket-id
           in: path
@@ -116,8 +114,6 @@ paths:
       summary: 'Sell ticket with discount'
       description: 'Create ticket based on the specified ticket and sell it to some person with specified discount %'
       operationId: 'OpID11'
-      security:
-        - token: []
       parameters:
          - name: ticket-id
            in: path
@@ -227,11 +223,3 @@ paths:
             application/xml:
               schema:
                 $ref: './ticket-service-openapi.yml#/components/schemas/ErrorModel'
-
-components:
-  securitySchemes:
-    token:
-      type: apiKey
-      description: 'Token'
-      name: 'Token'
-      in: header
