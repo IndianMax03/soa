@@ -2,6 +2,7 @@ package com.brigada.tickets_web_service.controller;
 
 import com.brigada.general.model.dto.PageDto;
 import com.brigada.tickets_ejb.model.Ticket;
+import com.brigada.tickets_ejb.model.Venue;
 import com.brigada.tickets_web_service.service.TicketsService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -98,6 +99,27 @@ public class TicketsController {
     public Response deleteTicket(@PathParam("id") Long id) {
         ticketsService.delete(id);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("price/sum")
+    public Response getTicketsPriceSum() {
+        Double sum = ticketsService.getTicketsPriceSum();
+        return Response.ok(sum).build();
+    }
+
+    @GET
+    @Path("venue/min")
+    public Response getTicketsVenueMin() {
+        Venue venue = ticketsService.getTicketsVenueMin();
+        return Response.ok(venue).build();
+    }
+
+    @GET
+    @Path("venue/unique")
+    public Response getTicketsVenueUnique() {
+        List<Venue> venues = ticketsService.getTicketsUniqueVenues();
+        return Response.ok(venues).build();
     }
 
 }

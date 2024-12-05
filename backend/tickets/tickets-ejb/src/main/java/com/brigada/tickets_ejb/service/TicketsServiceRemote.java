@@ -2,6 +2,7 @@ package com.brigada.tickets_ejb.service;
 
 import com.brigada.general.model.dto.PageDto;
 import com.brigada.tickets_ejb.model.Ticket;
+import com.brigada.tickets_ejb.model.Venue;
 import jakarta.ejb.Remote;
 import jakarta.transaction.Transactional;
 
@@ -38,5 +39,11 @@ public interface TicketsServiceRemote {
 
     @Transactional
     void delete(Long id);
+
+    Double getTicketsPriceSum();
+
+    Venue getTicketsVenueMin();
+
+    List<Venue> getTicketsUniqueVenues();
 
 }
