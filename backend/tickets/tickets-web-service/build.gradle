@@ -1,0 +1,48 @@
+plugins {
+	id 'java'
+	id 'war'
+}
+
+group = 'com.brigada'
+version = '1'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+ext {
+	junitVersion = '5.9.2'
+}
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+dependencies {
+
+	implementation('org.glassfish.jersey.media:jersey-media-json-jackson:3.1.9')
+	implementation('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0')
+
+	implementation files('../tickets-ejb/build/libs/tickets-ejb-1.jar')
+	implementation('com.orbitz.consul:consul-client:1.5.3')
+	compileOnly 'jakarta.platform:jakarta.jakartaee-web-api:11.0.0-M4'
+
+	implementation('com.brigada.general:general:1')
+
+	implementation("org.projectlombok:lombok:1.18.34")
+	annotationProcessor("org.projectlombok:lombok:1.18.34")
+	implementation("org.mapstruct:mapstruct:1.6.0")
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.0")
+
+	testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

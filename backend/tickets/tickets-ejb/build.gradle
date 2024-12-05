@@ -1,0 +1,62 @@
+plugins {
+	id 'java'
+}
+
+group 'com.brigada'
+version '1'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+ext {
+	junitVersion = '5.9.2'
+}
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+dependencies {
+	implementation('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0')
+	implementation 'org.hibernate.orm:hibernate-core:6.6.1.Final'
+	implementation('org.hibernate.validator:hibernate-validator:7.0.5.Final')
+
+	compileOnly 'jakarta.platform:jakarta.jakartaee-web-api:11.0.0-M4'
+
+	implementation('com.brigada.general:general:1')
+
+	implementation 'org.postgresql:postgresql:42.7.4'
+
+	implementation("org.projectlombok:lombok:1.18.34")
+	annotationProcessor("org.projectlombok:lombok:1.18.34")
+	implementation("org.mapstruct:mapstruct:1.6.0")
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.0")
+
+	testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+jar {
+	archiveBaseName.set('tickets-ejb')
+	archiveVersion.set(version)
+	manifest {
+		attributes(
+				'Implementation-Title': 'Tickets EJB component',
+				'Implementation-Version': version
+		)
+	}
+}
+tasks.withType(Jar) {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}
+test {
+	useJUnitPlatform()
+}

@@ -1,0 +1,54 @@
+server:
+  port: 9912
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+
+spring:
+  application:
+    name: api-gateway-server
+  cloud:
+    consul:
+      discovery:
+        enabled: true
+      host: consul
+      port: 8500
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      httpclient:
+        ssl:
+          use-insecure-trust-manager: true
+        connect-timeout: 1000
+        response-timeout: 5s
+      routes:
+        - id: tickets-route
+          uri: lb:https://tickets-service
+          predicates:
+            - Path=/movie/**
+          filters:
+            - RewritePath=/tickets, /tickets-web-service-1/tickets
+          order: 1
+
+        - id: booking-route
+          uri: lb:https://booking-service
+          predicates:
+            - Path=/booking/**
+          filters:
+            - RewritePath=/booking, /booking
+          order: 2
