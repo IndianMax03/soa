@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PersonForm } from './PersonForm';
 import { getAllPersons } from '../api/personsService';
 import { PersonsList } from './PersonsList';
@@ -8,13 +8,13 @@ export const PersonsPage = () => {
   const [persons, setPersons] = useState<Person[]>([]);
   const [totalPagesCount, setTotalPagesCount] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
+  const [size, setSize] = useState(5);
 
   useEffect(() => {
     (async () => {
-      const response = await getAllPersons(currentPage, pageSize);
-      const persons = response.PersonResponseArray.persons.person;
-      setTotalPagesCount(response.PersonResponseArray.totalPages);
+      const response = await getAllPersons(currentPage, size);
+      const persons = response.content;
+      setTotalPagesCount(response.meta.totalPages);
       setPersons(persons);
     })();
   }, [setPersons]);
@@ -29,8 +29,8 @@ export const PersonsPage = () => {
         setTotalPagesCount={setTotalPagesCount}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
+        size={size}
+        setSize={setSize}
       />
     </div>
   );

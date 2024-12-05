@@ -16,9 +16,9 @@ type Props = {
   setPopupIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
   currentPage: number;
-  pageSize: number;
+  size: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  setPageSize: React.Dispatch<React.SetStateAction<number>>;
+  setSize: React.Dispatch<React.SetStateAction<number>>;
   totalPagesCount: number;
   setTotalPagesCount: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -29,9 +29,9 @@ export const TicketsList: React.FC<Props> = ({
   setPopupIsVisible,
   setTickets,
   currentPage,
-  pageSize,
+  size,
   setCurrentPage,
-  setPageSize,
+  setSize,
   totalPagesCount,
   setTotalPagesCount
 }) => {
@@ -51,31 +51,31 @@ export const TicketsList: React.FC<Props> = ({
 
   const fetchSortedTickets = async () => {
     if (sort && filter) {
-      const response = await getTickets(currentPage, pageSize, sort, filter);
-      const tickets = await response.TicketResponseArray?.tickets?.ticket;
-      setTotalPagesCount(response.TicketResponseArray.totalPages);
+      const response = await getTickets(currentPage, size, sort, filter);
+      const tickets = await response.content;
+      setTotalPagesCount(response.meta.totalPages);
       await setTickets(tickets);
     } else if (sort) {
-      const response = await getTickets(currentPage, pageSize, sort);
-      const tickets = await response.TicketResponseArray?.tickets?.ticket;
-      setTotalPagesCount(response.TicketResponseArray.totalPages);
+      const response = await getTickets(currentPage, size, sort);
+      const tickets = await response.content;
+      setTotalPagesCount(response.meta.totalPages);
       await setTickets(tickets);
     } else if (filter) {
-      const response = await getTickets(currentPage, pageSize, undefined, filter);
-      const tickets = await response.TicketResponseArray?.tickets?.ticket;
+      const response = await getTickets(currentPage, size, undefined, filter);
+      const tickets = await response.content;
+      setTotalPagesCount(response.meta.totalPages);
       await setTickets(tickets);
-      setTotalPagesCount(response.TicketResponseArray.totalPages);
     } else {
-      const response = await getTickets(currentPage, pageSize);
-      const tickets = await response.TicketResponseArray?.tickets?.ticket;
-      setTotalPagesCount(response.TicketResponseArray.totalPages);
+      const response = await getTickets(currentPage, size);
+      const tickets = await response.content;
+      setTotalPagesCount(response.meta.totalPages);
       await setTickets(tickets);
     }
   };
 
   useEffect(() => {
     fetchSortedTickets();
-  }, [sort, setTickets, pageSize, currentPage, filter, setTotalPagesCount]);
+  }, [sort, setTickets, size, currentPage, filter, setTotalPagesCount]);
 
   const handleSort = (name: string) => {
     setSort((prevSort) =>
@@ -104,8 +104,8 @@ export const TicketsList: React.FC<Props> = ({
     setPopupIsVisible(true);
   };
 
-  const handlePageSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPageSize(Number(event.target.value));
+  const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSize(Number(event.target.value));
     setCurrentPage(1);
   };
   return (
@@ -141,7 +141,7 @@ export const TicketsList: React.FC<Props> = ({
                 <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td className={styles.price}>{item.price}</td>
-                <td>{item.sold}</td>
+                <td>{item.sold.toString()}</td>
                 <td>{item.type}</td>
                 <td>
                   {item.coordinates.x}, {item.coordinates.y}
@@ -157,7 +157,7 @@ export const TicketsList: React.FC<Props> = ({
                   <button onClick={() => handleTicketEdit(item)}>
                     <MdOutlineEdit />
                   </button>
-                  {item.sold === 'false' && (
+                  {item.sold.toString() === 'false' && (
                     <button onClick={() => handleTicketBuying(item.id)}>
                       <IoCartOutline />
                     </button>
@@ -188,7 +188,7 @@ export const TicketsList: React.FC<Props> = ({
         >
           Next
         </button>
-        <select value={pageSize} onChange={handlePageSizeChange}>
+        <select value={size} onChange={handleSizeChange}>
           <option value={5}>5 per page</option>
           <option value={10}>10 per page</option>
           <option value={20}>20 per page</option>

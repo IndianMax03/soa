@@ -3,7 +3,7 @@ import apiClient from './apiClient';
 
 export const getAllPersons = async (
   page: number,
-  pageSize: number,
+  size: number,
   sort?: Sort,
   filter?: Map<string, string | number> | undefined
 ) => {
@@ -18,7 +18,7 @@ export const getAllPersons = async (
       });
     }
     params.append('page', page.toString());
-    params.append('pageSize', pageSize.toString());
+    params.append('size', size.toString());
     const response = await apiClient.get('/persons', { params });
     return response;
   } catch (error) {

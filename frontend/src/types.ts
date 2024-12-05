@@ -31,6 +31,7 @@ export type Person = {
   id?: number;
   username: string;
   password: string;
+  balance: number;
 };
 
 export type Ticket = {
@@ -40,6 +41,7 @@ export type Ticket = {
   price: number;
   sold: boolean;
   type: TicketType;
+  owner: Person | null;
   venue: Venue;
 };
 
