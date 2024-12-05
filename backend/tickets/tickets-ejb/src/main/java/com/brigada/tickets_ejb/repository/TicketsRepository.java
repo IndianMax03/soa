@@ -6,6 +6,7 @@ import com.brigada.general.model.enums.TicketType;
 import com.brigada.general.model.enums.VenueType;
 import com.brigada.tickets_ejb.filter.FilterCriterion;
 import com.brigada.tickets_ejb.model.Ticket;
+import com.brigada.tickets_ejb.model.Venue;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -70,6 +71,26 @@ public class TicketsRepository {
 
     public void delete(Ticket ticket) {
         entityManager.remove(ticket);
+    }
+
+    public Double getTicketsPriceSum() {
+        return (Double) entityManager
+                .createQuery("SELECT SUM(price) FROM Ticket")
+                .getSingleResult();
+    }
+
+    public Optional<Venue> getTicketsVenueMin() {
+        return entityManager
+                .createQuery("SELECT v FROM Venue v WHERE v.capacity = (SELECT MIN(v2.capacity) FROM Venue v2)", Venue.class)
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst();
+    }
+
+    public List<Venue> getTicketsUniqueVenues() {
+        return entityManager
+                .createQuery("SELECT v FROM Venue v WHERE v.capacity IN (SELECT DISTINCT v2.capacity FROM Venue v2)", Venue.class)
+                .getResultList();
     }
 
     private List<Predicate> buildPredicates(CriteriaBuilder cb, Root<Ticket> ticket, List<FilterCriterion> filters) {

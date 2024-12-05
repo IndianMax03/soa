@@ -5,6 +5,7 @@ import com.brigada.general.model.dto.PageDto;
 import com.brigada.tickets_ejb.data.TicketsMapper;
 import com.brigada.tickets_ejb.filter.FilterCriterion;
 import com.brigada.tickets_ejb.model.Ticket;
+import com.brigada.tickets_ejb.model.Venue;
 import com.brigada.tickets_ejb.repository.TicketsRepository;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -12,6 +13,7 @@ import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Stateless
 public class TicketsService implements TicketsServiceRemote {
@@ -51,6 +53,21 @@ public class TicketsService implements TicketsServiceRemote {
     public void delete(Long id) {
         Ticket ticket = findById(id);
         ticketsRepository.delete(ticket);
+    }
+
+    @Override
+    public Double getTicketsPriceSum() {
+        return ticketsRepository.getTicketsPriceSum();
+    }
+
+    @Override
+    public Venue getTicketsVenueMin() {
+        return ticketsRepository.getTicketsVenueMin().orElseThrow(() -> new NoSuchElementException("There is no venue!"));
+    }
+
+    @Override
+    public List<Venue> getTicketsUniqueVenues() {
+        return ticketsRepository.getTicketsUniqueVenues();
     }
 
     private List<FilterCriterion> createFilters(String idValue, String idFilter, String nameValue, String nameFilter, String coordinatesXValue, String coordinatesXFilter, String coordinatesYValue, String coordinatesYFilter, String creationDateValue, String creationDateFilter, String isSoldValue, String isSoldFilter, String priceValue, String priceFilter, String typeValue, String typeFilter, String venueIdValue, String venueIdFilter, String venueNameValue, String venueNameFilter, String venueCapacityValue, String venueCapacityFilter, String venueTypeValue, String venueTypeFilter, String venueAddressIdValue, String venueAddressIdFilter, String venueAddressZipCodeValue, String venueAddressZipCodeFilter) {

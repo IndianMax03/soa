@@ -2,6 +2,7 @@ package com.brigada.tickets_web_service.service;
 
 import com.brigada.general.model.dto.PageDto;
 import com.brigada.tickets_ejb.model.Ticket;
+import com.brigada.tickets_ejb.model.Venue;
 import com.brigada.tickets_ejb.service.TicketsServiceRemote;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -74,6 +75,17 @@ public class TicketsService {
         ticketsServiceRemote.delete(id);
     }
 
+    public Double getTicketsPriceSum() {
+        return ticketsServiceRemote.getTicketsPriceSum();
+    }
+
+    public Venue getTicketsVenueMin() {
+        return ticketsServiceRemote.getTicketsVenueMin();
+    }
+
+    public List<Venue> getTicketsUniqueVenues() {
+        return ticketsServiceRemote.getTicketsUniqueVenues();
+    }
 
     private TicketsServiceRemote getFromEJBPool(String name) throws NamingException {
         return (TicketsServiceRemote) new InitialContext().lookup(name);
