@@ -41,10 +41,22 @@ spring:
           uri: lb:https://tickets-service
           predicates:
             - Path=/tickets/**
+          filters:
+            - RewritePath=/tickets, /tickets-service/tickets
           order: 1
 
         - id: booking-route
           uri: lb:https://booking-service
           predicates:
             - Path=/booking/**
+          filters:
+            - RewritePath=/booking, /booking-service
           order: 2
+
+        - id: persons-route
+          uri: lb:https://tickets-service
+          predicates:
+            - Path=/persons/**
+          filters:
+            - RewritePath=/persons, /tickets-service/persons
+          order: 3
