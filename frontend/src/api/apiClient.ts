@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { xml2json } from '../util/converter';
+// import { xml2json } from '../util/converter';
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:9912',

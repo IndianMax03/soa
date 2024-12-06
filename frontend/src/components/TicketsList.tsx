@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Sort, Ticket } from '../types';
+import { FilterInputType, Sort, Ticket } from '../types';
 import styles from './ticketsList.module.css';
 import { MdDeleteOutline } from 'react-icons/md';
 import { MdOutlineEdit } from 'react-icons/md';
@@ -23,6 +23,20 @@ type Props = {
   setTotalPagesCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
+const filterFields = [
+  { key: 'id', type: FilterInputType.DIGITS, placeholder: 'ID', inputType: 'number' },
+  { key: 'name', type: FilterInputType.TEXT, placeholder: 'Name', inputType: 'text' },
+  { key: 'price', type: FilterInputType.DIGITS, placeholder: 'Price', inputType: 'number' },
+  { key: 'venueName', type: FilterInputType.TEXT, placeholder: 'Venue Name', inputType: 'text' },
+  {
+    key: 'venueCapacity',
+    type: FilterInputType.DIGITS,
+    placeholder: 'Venue Capacity',
+    inputType: 'number'
+  },
+  { key: 'zipCode', type: FilterInputType.DIGITS, placeholder: 'Zip Code', inputType: 'number' }
+];
+
 export const TicketsList: React.FC<Props> = ({
   items,
   setSelectedTicketId,
@@ -39,7 +53,20 @@ export const TicketsList: React.FC<Props> = ({
   const [filterPopupVisible, setFilterPopupVisible] = useState(false);
   const [ticketToEdit, setTicketToEdit] = useState<Ticket | null>(null);
   const [sort, setSort] = useState<Sort | undefined>();
-  const [filter, setFilter] = useState<Map<string, string | number> | undefined>();
+  const [filter, setFilter] = useState<{
+    id: undefined;
+    idFilter: undefined;
+    name: undefined;
+    nameFilter: undefined;
+    price: undefined;
+    priceFilter: undefined;
+    venueName: undefined;
+    venueNameFilter: undefined;
+    venueCapacity: undefined;
+    venueCapacityFilter: undefined;
+    zipCode: undefined;
+    zipCodeFilter: undefined;
+  }>();
 
   useEffect(() => {
     if (!Array.isArray(items) && items) {
@@ -50,6 +77,7 @@ export const TicketsList: React.FC<Props> = ({
   }, [items, setTickets]);
 
   const fetchSortedTickets = async () => {
+    console.log(filter);
     if (sort && filter) {
       const response = await getTickets(currentPage, size, sort, filter);
       const tickets = await response.content;
@@ -122,15 +150,19 @@ export const TicketsList: React.FC<Props> = ({
             <th>
               Price <FaSort onClick={() => handleSort('price')} />
             </th>
-            <th>
-              Is Sold <FaSort onClick={() => handleSort('sold')} />
-            </th>
+            <th>Is Sold</th>
             <th>Type</th>
             <th>Coordinates (X, Y)</th>
-            <th>Venue Name</th>
+            <th>
+              Venue Name <FaSort onClick={() => handleSort('venue.name')} />
+            </th>
             <th>Venue Type</th>
-            <th>Venue Capacity</th>
-            <th>Address Zipcode</th>
+            <th>
+              Venue Capacity <FaSort onClick={() => handleSort('venue.capacity')} />
+            </th>
+            <th>
+              Address Zipcode <FaSort onClick={() => handleSort('venue.address.zipCode')} />
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -203,6 +235,7 @@ export const TicketsList: React.FC<Props> = ({
           onClose={() => setFilterPopupVisible(false)}
           filter={filter}
           setFilter={setFilter}
+          filterFields={filterFields}
         />
       )}
 

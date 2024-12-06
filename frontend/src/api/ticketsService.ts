@@ -1,20 +1,20 @@
-import { Coordinates, Sort, Ticket, TicketType, Venue } from '../types';
+import { Coordinates, Filter, Sort, Ticket, TicketType, Venue } from '../types';
+import { buildQueryString } from '../util/queryBuilder';
 import apiClient from './apiClient';
 
-export const getTickets = async (
-  page: number,
-  size: number,
-  sort?: Sort,
-  filter?: Map<string, string | number> | undefined
-) => {
+export const getTickets = async (page: number, size: number, sort?: Sort, filter?: Filter) => {
   try {
     const params = new URLSearchParams();
     if (sort) {
       params.append('sort', `${sort.name},${sort.asc ? 'asc' : 'desc'}`);
     }
     if (filter) {
-      filter.forEach((value, key) => {
-        params.append(key, value.toString());
+      const queryString = buildQueryString(filter);
+      queryString.split('&').forEach((param) => {
+        const [key, value] = param.split('=');
+        if (key && value) {
+          params.append(decodeURIComponent(key), decodeURIComponent(value));
+        }
       });
     }
     params.append('page', page.toString());

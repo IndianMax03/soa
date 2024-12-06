@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Person, Sort } from '../types';
+import { FilterInputType, Person, Sort } from '../types';
 import styles from './personsList.module.css';
 import { FaSort } from 'react-icons/fa';
 import { getAllPersons } from '../api/personsService';
 import { CiFilter } from 'react-icons/ci';
-import { PersonsFilterPopup } from './PersonsFilterPopup';
+import { FilterPopup } from './FilterPopup';
 
 type Props = {
   items: Person[];
@@ -16,6 +16,13 @@ type Props = {
   size: number;
   setSize: React.Dispatch<React.SetStateAction<number>>;
 };
+
+const filterFields = [
+  { key: 'id', type: FilterInputType.DIGITS, placeholder: 'ID', inputType: 'number' },
+  { key: 'name', type: FilterInputType.TEXT, placeholder: 'Name', inputType: 'text' },
+  { key: 'password', type: FilterInputType.DIGITS, placeholder: 'Password', inputType: 'text' },
+  { key: 'balance', type: FilterInputType.TEXT, placeholder: 'Balance', inputType: 'number' }
+];
 
 const imageNames = ['bibizyan.jpg', 'dilf.jpg', 'grandpa.jpg', 'rock.jpg', 'monkey.jpg'];
 
@@ -31,7 +38,19 @@ export const PersonsList: React.FC<Props> = ({
 }) => {
   const [sort, setSort] = useState<Sort | undefined>();
   const [filterPopupVisible, setFilterPopupVisible] = useState(false);
-  const [filter, setFilter] = useState<Map<string, string | number> | undefined>();
+  const [filter, setFilter] = useState<{
+    id: undefined;
+    name: undefined;
+    nameFilter: undefined;
+    price: undefined;
+    priceFilter: undefined;
+    venueName: undefined;
+    venueNameFilter: undefined;
+    venueCapacity: undefined;
+    venueCapacityFilter: undefined;
+    zipCode: undefined;
+    zipCodeFilter: undefined;
+  }>();
 
   useEffect(() => {
     if (!Array.isArray(items)) {
@@ -113,6 +132,14 @@ export const PersonsList: React.FC<Props> = ({
                 }}
               />
             </th>
+            <th>
+              Balance
+              <FaSort
+                onClick={() => {
+                  handleSort('balance');
+                }}
+              />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -125,6 +152,7 @@ export const PersonsList: React.FC<Props> = ({
                 <td>{item.id}</td>
                 <td>{item.username}</td>
                 <td>{item.password} </td>
+                <td>{item.balance} </td>
               </tr>
             ))
           ) : (
@@ -160,10 +188,11 @@ export const PersonsList: React.FC<Props> = ({
       </div>
 
       {filterPopupVisible && (
-        <PersonsFilterPopup
+        <FilterPopup
           onClose={() => setFilterPopupVisible(false)}
           filter={filter}
           setFilter={setFilter}
+          filterFields={filterFields}
         />
       )}
     </div>
