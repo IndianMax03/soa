@@ -19,7 +19,7 @@ type Props = {
 
 const filterFields = [
   { key: 'id', type: FilterInputType.DIGITS, placeholder: 'ID', inputType: 'number' },
-  { key: 'name', type: FilterInputType.TEXT, placeholder: 'Name', inputType: 'text' },
+  { key: 'username', type: FilterInputType.TEXT, placeholder: 'Username', inputType: 'text' },
   { key: 'password', type: FilterInputType.DIGITS, placeholder: 'Password', inputType: 'text' },
   { key: 'balance', type: FilterInputType.TEXT, placeholder: 'Balance', inputType: 'number' }
 ];
@@ -40,16 +40,9 @@ export const PersonsList: React.FC<Props> = ({
   const [filterPopupVisible, setFilterPopupVisible] = useState(false);
   const [filter, setFilter] = useState<{
     id: undefined;
-    name: undefined;
-    nameFilter: undefined;
-    price: undefined;
-    priceFilter: undefined;
-    venueName: undefined;
-    venueNameFilter: undefined;
-    venueCapacity: undefined;
-    venueCapacityFilter: undefined;
-    zipCode: undefined;
-    zipCodeFilter: undefined;
+    username: undefined;
+    password: undefined;
+    balance: undefined;
   }>();
 
   useEffect(() => {

@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './editTicketPopup.module.css';
+import styles from './filterPopup.module.css';
 import { IoIosClose } from 'react-icons/io';
 import { FilterType } from './FilterType';
-import { Filter, FilterFields, FilterInputType } from '../types';
+import { Filter, FilterFields } from '../types';
 
 type Props = {
   onClose: () => void;

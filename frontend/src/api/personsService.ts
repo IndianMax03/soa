@@ -1,4 +1,5 @@
 import { Sort } from '../types';
+import { buildQueryString } from '../util/queryBuilder';
 import apiClient from './apiClient';
 
 export const getAllPersons = async (
@@ -13,8 +14,12 @@ export const getAllPersons = async (
       params.append('sort', `${sort.name},${sort.asc ? 'asc' : 'desc'}`);
     }
     if (filter) {
-      filter.forEach((value, key) => {
-        params.append(key, value.toString());
+      const queryString = buildQueryString(filter);
+      queryString.split('&').forEach((param) => {
+        const [key, value] = param.split('=');
+        if (key && value) {
+          params.append(decodeURIComponent(key), decodeURIComponent(value));
+        }
       });
     }
     params.append('page', page.toString());
