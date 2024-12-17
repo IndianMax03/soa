@@ -11,13 +11,13 @@ export const TicketPage = () => {
   const [selectedTicketId, setSelectedTicketId] = useState<number | undefined>();
   const [popupIsVisible, setPopupIsVisible] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
+  const [size, setSize] = useState(5);
   const [totalPagesCount, setTotalPagesCount] = useState<number>(1);
 
   const fetch = async () => {
-    const response = await getTickets(currentPage, pageSize);
-    const tickets = response.TicketResponseArray?.tickets?.ticket;
-    setTotalPagesCount(response.TicketResponseArray.totalPages);
+    const response = await getTickets(currentPage, size);
+    const tickets = response.content;
+    setTotalPagesCount(response.meta.totalPages);
     setTickets(tickets);
   };
 
@@ -39,9 +39,9 @@ export const TicketPage = () => {
         setPopupIsVisible={setPopupIsVisible}
         setTickets={setTickets}
         currentPage={currentPage}
-        pageSize={pageSize}
+        size={size}
         setCurrentPage={setCurrentPage}
-        setPageSize={setPageSize}
+        setSize={setSize}
         totalPagesCount={totalPagesCount}
         setTotalPagesCount={setTotalPagesCount}
       />

@@ -13,10 +13,10 @@ export const TicketForm = () => {
   const [capacity, setCapacity] = useState<number>(1);
   const [venueType, setVenueType] = useState<VenueType>(VenueType.BAR);
   const [zipCode, setZipCode] = useState<string>('');
-  const [error, setError] = useState<string>('')
+  const [error, setError] = useState<string>('');
 
   const handleTicketCreation = () => {
-    if (!validate()){
+    if (!validate()) {
       return;
     }
 
@@ -27,19 +27,19 @@ export const TicketForm = () => {
       address: { zipCode }
     });
   };
-  
+
   const validate = () => {
-      if(zipCode.length < 10){
-        setError('Zipcode should be at least 10 numbers')
-        return false;
-      }
-      if(!name || !capacity || !zipCode || !price){
-        setError('All fields should be set')
-        return false;
-      }
-      setError('');
-      return true;
-  }
+    if (zipCode.length < 10) {
+      setError('Zipcode should be at least 10 numbers');
+      return false;
+    }
+    if (!name || !capacity || !zipCode || !price) {
+      setError('All fields should be set');
+      return false;
+    }
+    setError('');
+    return true;
+  };
 
   return (
     <div className={styles.form}>
@@ -84,10 +84,9 @@ export const TicketForm = () => {
         ))}
       </select>
       <div>Address</div>
-      <input placeholder="Zip code" type="text" onChange={(e) => setZipCode(e.target.value)}/>
+      <input placeholder="Zip code" type="text" onChange={(e) => setZipCode(e.target.value)} />
       <button onClick={handleTicketCreation}>Create</button>
-      <div style={{width: '150px'}}>   {error}</div>
-   
+      <div style={{ width: '150px' }}> {error}</div>
     </div>
   );
 };

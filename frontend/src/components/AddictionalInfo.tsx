@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Ticket, Venue } from '../types';
+import { Venue } from '../types';
 import { getMinimumOfVenue, getSumOfAllTickets, getUniqueVenue } from '../api/ticketsUtilService';
 import styles from './addictionalInfo.module.css';
 
 export const AddictionalInfo = () => {
   const [uniqueVenue, setUniqueVenue] = useState<Venue[]>();
-  const [minVenue, setMinVenue] = useState<Ticket>();
+  const [minVenue, setMinVenue] = useState<Venue>();
   const [ticketsSum, setTicketsSum] = useState<number>();
 
   const handleGetUniqueVenue = async () => {
@@ -26,10 +26,10 @@ export const AddictionalInfo = () => {
     <div className={styles.block}>
       <div className={styles.result}>
         <button onClick={handleGetMinVenue}>Get venue with minimum capacity</button>
-        <div>{minVenue?.venue.name}</div>
-        <div>{minVenue?.venue.address.zipCode}</div>
-        <div>{minVenue?.venue.type}</div>
-        <div>{minVenue?.venue.capacity}</div>
+        <div>{minVenue?.name}</div>
+        <div>{minVenue?.address.zipCode}</div>
+        <div>{minVenue?.type}</div>
+        <div>{minVenue?.capacity}</div>
       </div>
       <div className={styles.result}>
         <button onClick={handleGetTicketsSum}>Get sum of all tickets</button>

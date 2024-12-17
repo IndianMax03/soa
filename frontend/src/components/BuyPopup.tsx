@@ -20,7 +20,7 @@ export const BuyPopup = ({ selectedTicketId, onClose }: Props) => {
   useEffect(() => {
     (async () => {
       const response = await getAllPersons(0, 100);
-      const persons = response.PersonResponseArray.persons.person;
+      const persons = response.content;
       setPersons(persons);
     })();
   }, []);

@@ -1,9 +1,10 @@
 import { Sort } from '../types';
+import { buildQueryString } from '../util/queryBuilder';
 import apiClient from './apiClient';
 
 export const getAllPersons = async (
   page: number,
-  pageSize: number,
+  size: number,
   sort?: Sort,
   filter?: Map<string, string | number> | undefined
 ) => {
@@ -13,12 +14,16 @@ export const getAllPersons = async (
       params.append('sort', `${sort.name},${sort.asc ? 'asc' : 'desc'}`);
     }
     if (filter) {
-      filter.forEach((value, key) => {
-        params.append(key, value.toString());
+      const queryString = buildQueryString(filter);
+      queryString.split('&').forEach((param) => {
+        const [key, value] = param.split('=');
+        if (key && value) {
+          params.append(decodeURIComponent(key), decodeURIComponent(value));
+        }
       });
     }
     params.append('page', page.toString());
-    params.append('pageSize', pageSize.toString());
+    params.append('size', size.toString());
     const response = await apiClient.get('/persons', { params });
     return response;
   } catch (error) {

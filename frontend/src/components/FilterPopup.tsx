@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
-import styles from './editTicketPopup.module.css';
+import React from 'react';
+import styles from './filterPopup.module.css';
 import { IoIosClose } from 'react-icons/io';
+import { FilterType } from './FilterType';
+import { Filter, FilterFields } from '../types';
 
 type Props = {
   onClose: () => void;
-  filter: Map<string, string | number> | undefined;
-  setFilter: React.Dispatch<React.SetStateAction<Map<string, string | number> | undefined>>;
+  filter: Filter;
+  setFilter: React.Dispatch<React.SetStateAction<Filter>>;
+  filterFields: FilterFields[];
 };
-export const FilterPopup: React.FC<Props> = ({ onClose, filter, setFilter }) => {
-  const [id, setId] = useState(filter?.get('id'));
-  const [name, setName] = useState(filter?.get('name'));
-  const [price, setPrice] = useState(filter?.get('price'));
-  const [isSold, setIsSold] = useState(filter?.get('isSold') || undefined);
+
+export const FilterPopup: React.FC<Props> = ({ onClose, filter, setFilter, filterFields }) => {
+  const handleFilterChange = (key: string, value: any) => {
+    setFilter((prev) => ({ ...prev, [key]: value }));
+  };
 
   const handleSave = () => {
-    const newFilter = new Map<string, string | number>();
-
-    if (id) newFilter.set('id', id);
-    if (name) newFilter.set('name', name);
-    if (price) newFilter.set('price', price);
-    if (isSold) newFilter.set('isSold', isSold);
-
-    setFilter(newFilter.size ? newFilter : undefined);
     onClose();
   };
 
@@ -31,31 +26,32 @@ export const FilterPopup: React.FC<Props> = ({ onClose, filter, setFilter }) => 
         <button className={styles.closeButton} onClick={onClose}>
           <IoIosClose size={30} />
         </button>
-        <input
-          value={id || ''}
-          type="number"
-          placeholder="id"
-          onChange={(e) => setId(Number(e.target.value) || undefined)}
-        />
-        <input
-          value={name || ''}
-          placeholder="name"
-          onChange={(e) => setName(e.target.value || undefined)}
-        />
-        <input
-          type="number"
-          placeholder="price"
-          value={price || ''}
-          onChange={(e) => setPrice(Number(e.target.value) || undefined)}
-        />
 
-        <select value={isSold ?? ''} onChange={(e) => setIsSold(e.target.value || undefined)}>
-          <option value="">Sold Status (Any)</option>
-          <option value="true">Sold</option>
-          <option value="false">Not Sold</option>
-        </select>
+        {filterFields.map(({ key, type, placeholder, inputType }) => (
+          <div key={key} className={styles.filterField}>
+            <input
+              type={inputType}
+              placeholder={placeholder}
+              value={filter?.[key] || ''}
+              onChange={(e) =>
+                handleFilterChange(
+                  key,
+                  inputType === 'number'
+                    ? Number(e.target.value) || undefined
+                    : e.target.value || undefined
+                )
+              }
+            />
+            <FilterType
+              type={type}
+              onFilterChange={(filterType) => handleFilterChange(`${key}Filter`, filterType)}
+            />
+          </div>
+        ))}
 
-        <button onClick={handleSave}>Save Changes</button>
+        <button onClick={handleSave} className={styles.saveButton}>
+          Save Changes
+        </button>
       </div>
     </div>
   );
