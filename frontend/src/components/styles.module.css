@@ -1,0 +1,18 @@
+.form {
+  display: grid;
+  width: fit-content;
+  padding: 20px 80px;
+  background-color: white;
+  border-radius: 20px;
+  div {
+    margin-bottom: 10px;
+  }
+  select {
+    background-color: white;
+    color: black;
+  }
+
+  /* button{
+        width: 50px;
+    } */
+}

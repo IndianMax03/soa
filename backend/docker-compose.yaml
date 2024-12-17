@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+
+  booking-service:
+    build: ./booking/booking-service
+    container_name: booking-service
+    depends_on:
+      - tickets-service
+      - eureka-server
+      - config-server
+    networks:
+      - net
+    ports:
+      - "8181:8443"
+
+  tickets-service:
+    build: tickets
+    container_name: tickets-service
+    depends_on:
+      - postgres
+      - consul
+    networks:
+      - net
+    ports:
+      - "8081:8443"
+      - "9990:9990"
+      - "9993:9993"
+
+  postgres:
+    image: postgres
+    container_name: main-db
+    environment:
+      POSTGRES_DB: "tickets_service"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    command: postgres -p 5432
+    volumes:
+      - ./tickets/deploy/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pg_data:/var/lib/postgresql
+    networks:
+      - net
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  eureka-server:
+    build: booking/eureka-server
+    container_name: eureka-server
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - net
+    ports:
+      - "8761:8761"
+
+  consul:
+    image: consul:1.15.4
+    container_name: consul
+    networks:
+      - net
+    ports:
+      - "8500:8500"
+
+  api-gateway:
+    build: booking/api-gateway-server
+    container_name: api-gateway-server
+    networks:
+      - net
+    ports:
+      - "9912:9912"
+
+  config-server:
+    build: booking/config-server
+    container_name: config-server
+    networks:
+      - net
+    ports:
+      - "8095:8095"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8095/actuator/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  pg_data:
+    driver: local

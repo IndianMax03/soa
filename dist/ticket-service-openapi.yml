@@ -97,8 +97,6 @@ paths:
                 - -venue.capacity
                 - -venue.type
                 - -venue.address.zipcode
-      security:
-        - token: []
       responses:
         '200':
           description: 'Description of response'
@@ -126,12 +124,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: 'Internal server error'
           content:
@@ -171,8 +163,6 @@ paths:
           application/xml:
             schema:
               $ref: '#/components/schemas/Ticket'
-      security:
-        - token: []
       responses:
         '200':
           description: 'Description of response'
@@ -200,12 +190,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '405':
           description: 'Validation exception'
           content:
@@ -261,8 +245,6 @@ paths:
       summary: 'Get ticket by id'
       description: 'Get ticket by id'
       operationId: 'OpID3'
-      security:
-        - token: []
       parameters:
         - name: id
           in: path
@@ -302,12 +284,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: 'Internal server error'
           content:
@@ -342,8 +318,6 @@ paths:
       summary: 'Update ticket by id'
       description: 'Update ticket by id'
       operationId: 'OpID4'
-      security:
-        - token: []
       parameters:
         - name: id
           in: path
@@ -389,12 +363,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: 'Internal server error'
           content:
@@ -429,8 +397,6 @@ paths:
       summary: 'Delete ticket by id'
       description: 'Delete ticket by id'
       operationId: 'OpID5'
-      security:
-        - token: []
       parameters:
         - name: id
           in: path
@@ -484,12 +450,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: 'Internal server error'
           content:
@@ -524,8 +484,6 @@ paths:
       summary: 'Get sum of all tickets'
       description: 'Get sum of all tickets'
       operationId: 'OpID6'
-      security:
-        - token: []
       responses:
         '200':
           description: 'Response description что вот держите сумму'
@@ -560,12 +518,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: 'Internal server error'
           content:
@@ -601,8 +553,6 @@ paths:
       summary: 'Get minimum of Venue'
       description: 'Get minimum of Venue'
       operationId: 'OpID7'
-      security:
-        - token: []
       responses:
         '200':
           description: 'Response description'
@@ -630,12 +580,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: 'Internal server error'
           content:
@@ -670,8 +614,6 @@ paths:
       summary: 'Get unique Venue'
       description: Get unique Venue'
       operationId: 'OpID8'
-      security:
-        - token: []
       responses:
         '200':
           description: 'Response description'
@@ -699,12 +641,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: 'Internal server error'
           content:
@@ -777,8 +713,6 @@ paths:
                 - id
                 - username
                 - balance
-      security:
-        - token: []
       responses:
         '200':
           description: 'Response description'
@@ -806,12 +740,6 @@ paths:
                     type: string
                     format: date-time
                     example: '2024-09-13T19:57:43.961423'
-        '401':
-          description: 'Not authorized!'
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
         '500':
           description: 'Internal server error'
           content:
@@ -924,103 +852,6 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ErrorModel'
-
-  /persons/login:
-    post:
-      tags:
-        - 'Persons'
-      summary: 'Get access token'
-      description: 'Get access token'
-      operationId: 'OpID114'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Person'
-      responses:
-        '200':
-          description: 'Response description'
-          content:
-            application/xml:
-              schema:
-                xml:
-                  name: 'token'
-                title: 'TokenResponse'
-                description: 'Token'
-                type: string
-                nullable: false
-                example: 'fd4698c940c6d1da602a70ac34f0b147'
-                minLength: 32
-                maxLength: 512
-        '400':
-          description: 'Invalid request'
-          content:
-            application/xml:
-              schema:
-                xml:
-                  name: 'error'
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 400
-                  message:
-                    type: string
-                    example: 'Invalid request'
-                  time:
-                    type: string
-                    format: date-time
-                    example: '2024-09-13T19:57:43.961423'
-        '405':
-          description: 'Validation exception'
-          content:
-            application/xml:
-              schema:
-                xml:
-                  name: 'error'
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 400
-                  message:
-                    type: string
-                    example: 'Validation error'
-                  time:
-                    type: string
-                    format: date-time
-                    example: '2024-09-13T19:57:43.961423'
-        '500':
-          description: 'Internal server error'
-          content:
-            application/xml:
-              schema:
-                xml:
-                  name: 'error'
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 500
-                  message:
-                    type: string
-                    example: 'Internal server error'
-                  time:
-                    type: string
-                    format: date-time
-                    example: '2024-09-13T19:57:43.961423'
-        default:
-          description: Returns error code, message and time in case of error
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ErrorModel'
-
-
 
 components:
   schemas:
@@ -1286,31 +1117,3 @@ components:
           type: string
           format: date-time
           example: '2024-09-13T19:57:43.961423'
-
-    UnauthorizedError:
-      type: object
-      xml:
-        name: 'error'
-      required:
-        - code
-        - message
-        - time
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 401
-        message:
-          type: string
-          example: 'Not authorized!'
-        time:
-          type: string
-          format: date-time
-          example: '2024-09-13T19:57:43.961423'
-
-  securitySchemes:
-    token:
-      type: apiKey
-      description: 'Token'
-      name: 'Token'
-      in: header
