@@ -18,10 +18,10 @@
 
 ### APP ###
 
-backend/tickets_service/target/*
-!backend/tickets_service/target/tickets_service.war
+backend/outdated/tickets_service/target/*
+!backend/outdated/tickets_service/target/tickets_service.war
 
-backend/booking_service/target/*
-!backend/booking_service/target/booking_service.war
+backend/outdated/booking_service/target/*
+!backend/outdated/booking_service/target/booking_service.war
 
 frontend/node_modules
