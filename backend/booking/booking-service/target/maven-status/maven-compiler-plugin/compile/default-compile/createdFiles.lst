@@ -1,12 +1,9 @@
-com/brigada/booking_service/config/ConsulServerList.class
+com/brigada/booking_service/config/RestTemplateConfiguration.class
 com/brigada/booking_service/controller/SellController.class
-com/brigada/booking_service/config/RibbonClientConfig.class
-com/brigada/booking_service/client/TicketsClient$1.class
-com/brigada/booking_service/controller/PingController.class
-com/brigada/booking_service/client/TicketsClient$2.class
-com/brigada/booking_service/config/ConsulRetriever.class
 com/brigada/booking_service/service/BookingService.class
 com/brigada/booking_service/service/TicketsService.class
 com/brigada/booking_service/client/TicketsClient.class
-com/brigada/booking_service/config/RibbonConfiguration.class
+com/brigada/booking_service/client/TicketsClient$1.class
 com/brigada/booking_service/BookingServiceApplication.class
+com/brigada/booking_service/config/WsAdapterConfig.class
+com/brigada/booking_service/client/TicketsClient$2.class

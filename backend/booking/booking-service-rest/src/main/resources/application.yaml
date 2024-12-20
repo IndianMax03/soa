@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: booking-service-rest
+
+server:
+  servlet:
+    context-path: /booking-service-rest
+  port: 2111
+logging:
+  level:
+    org:
+      springframework:
+        ws:
+          server:
+            MessageTracing:
+              received: TRACE
+              sent: DEBUG
+          client:
+            MessageTracing:
+              sent: DEBUG
+              received: TRACE
+        web: DEBUG
+
+booking-service:
+  url: https://booking-service:8443/ws
+eureka:
+  instance:
+    instanceId: booking-service-rest
+    hostname: booking-service-rest
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    fetch-registry: false

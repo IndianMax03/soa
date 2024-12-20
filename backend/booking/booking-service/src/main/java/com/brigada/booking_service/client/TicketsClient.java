@@ -1,18 +1,15 @@
 package com.brigada.booking_service.client;
 
-import com.brigada.booking_service.config.RibbonClientConfig;
 import com.brigada.general.model.dto.PageDto;
 import com.brigada.general.model.dto.PersonDto;
 import com.brigada.general.model.dto.TicketDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-@RibbonClient(name = "tickets-service", configuration = RibbonClientConfig.class)
 public class TicketsClient {
 
     private final RestTemplate restTemplate;
@@ -24,7 +21,7 @@ public class TicketsClient {
 
     public PageDto<PersonDto> getPersons(int page, int size) {
         return restTemplate.exchange(
-                "https://tickets-service:8443/tickets-service/persons?page={page}&size={size}",
+                "http://host.docker.internal:8543/tickets-service/persons?page={page}&size={size}",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<PageDto<PersonDto>>() {
@@ -36,7 +33,7 @@ public class TicketsClient {
 
     public PageDto<TicketDto> getTickets(int page, int size) {
         return restTemplate.exchange(
-                "https://tickets-service:8443/tickets-service/tickets?page={page}&size={size}",
+                "http://host.docker.internal:8543/tickets-service/tickets?page={page}&size={size}",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<PageDto<TicketDto>>() {
@@ -48,7 +45,7 @@ public class TicketsClient {
 
     public void updatePerson(Long id, PersonDto personDto) {
         restTemplate.put(
-                "https://tickets-service:8443/tickets-service/persons/{id}",
+                "http://host.docker.internal:8543/tickets-service/persons/{id}",
                 personDto,
                 id
         );
@@ -56,7 +53,7 @@ public class TicketsClient {
 
     public void updateTicket(Long id, TicketDto ticketDto) {
         restTemplate.put(
-                "https://tickets-service:8443/tickets-service/tickets/{id}",
+                "http://host.docker.internal:8543/tickets-service/tickets/{id}",
                 ticketDto,
                 id
         );

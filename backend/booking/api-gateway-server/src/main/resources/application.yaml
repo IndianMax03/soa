@@ -46,11 +46,11 @@ spring:
           order: 1
 
         - id: booking-route
-          uri: lb:https://booking-service
+          uri: lb:https://booking-service-rest
           predicates:
             - Path=/booking/**
           filters:
-            - RewritePath=/booking, /booking-service
+            - RewritePath=/booking, /booking-service-rest
           order: 2
 
         - id: persons-route

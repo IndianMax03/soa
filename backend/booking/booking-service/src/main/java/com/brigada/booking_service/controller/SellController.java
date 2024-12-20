@@ -1,41 +1,40 @@
 package com.brigada.booking_service.controller;
 
 import com.brigada.booking_service.service.BookingService;
-import com.brigada.booking_service.service.TicketsService;
+import com.brigada.general.model.soap.SellRequest;
+import com.brigada.general.model.soap.SellWithDiscountRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-@RestController
-@RequestMapping("/sell")
+@Endpoint
 public class SellController {
 
-    BookingService bookingService;
+    private final String NAMESPACE_URI = "http://www.brigada.com/general/model/soap";
+
+    private final BookingService bookingService;
 
     @Autowired
     public SellController(BookingService bookingService) {
         this.bookingService = bookingService;
     }
 
-    @PostMapping("/{ticket-id}/{person-id}/{price}")
-    public ResponseEntity<String> sell(
-            @PathVariable("ticket-id") Long ticketId,
-            @PathVariable("person-id") Long personId,
-            @PathVariable("price") Double price
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "sellRequest")
+    @ResponsePayload
+    public SellRequest sell(
+            @RequestPayload SellRequest request
     ) {
-        return bookingService.sellTicketToPerson(ticketId, personId, price, null);
+        return bookingService.sellTicketToPerson(request.getTicketId(), request.getPersonId(), request.getPrice());
     }
 
-    @PostMapping("/discount/{ticket-id}/{person-id}/{discount}")
-    public ResponseEntity<String> sellWithDiscount(
-            @PathVariable("ticket-id") Long ticketId,
-            @PathVariable("person-id") Long personId,
-            @PathVariable("discount") Integer discountPercent
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "sellWithDiscountRequest")
+    @ResponsePayload
+    public SellWithDiscountRequest sellWithDiscount(
+            @RequestPayload SellWithDiscountRequest request
     ) {
-        return bookingService.sellTicketToPerson(ticketId, personId, null, discountPercent);
+        return bookingService.sellTicketToPersonWithDiscount(request.getTicketId(), request.getPersonId(), request.getDiscount());
     }
 
 }

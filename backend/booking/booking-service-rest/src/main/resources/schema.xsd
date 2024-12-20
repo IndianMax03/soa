@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.brigada.com/general/model/soap"
+           targetNamespace="http://www.brigada.com/general/model/soap" elementFormDefault="qualified">
+
+    <xs:element name="sellRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ticketId" type="xs:long"/>
+                <xs:element name="personId" type="xs:long"/>
+                <xs:element name="price" type="xs:double"/>
+                <xs:element name="result" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="sellWithDiscountRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ticketId" type="xs:long"/>
+                <xs:element name="personId" type="xs:long"/>
+                <xs:element name="discountPercent" type="xs:int"/>
+                <xs:element name="result" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

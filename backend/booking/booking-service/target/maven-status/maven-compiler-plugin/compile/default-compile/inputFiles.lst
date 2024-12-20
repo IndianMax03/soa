@@ -1,10 +1,7 @@
-/Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/config/ConsulRetriever.java
 /Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/BookingServiceApplication.java
-/Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/config/ConsulServerList.java
 /Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/service/TicketsService.java
-/Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/config/RibbonConfiguration.java
-/Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/controller/PingController.java
+/Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/config/WsAdapterConfig.java
+/Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/config/RestTemplateConfiguration.java
 /Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/controller/SellController.java
 /Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/service/BookingService.java
 /Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/client/TicketsClient.java
-/Users/indianmax/Desktop/projects/soa/backend/booking/booking-service/src/main/java/com/brigada/booking_service/config/RibbonClientConfig.java
